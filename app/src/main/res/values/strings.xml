@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">Quran_Application</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_8942">⋮</string>
+    <string name="a1">الم</string>
+    <string name="a2">سَيَقُولُ</string>
+    <string name="a3">تِلْكَ الرُّسُلُ</string>
+    <string name="a4">لَنْ تَنَالُوا</string>
+    <string name="a5">وَالْمُحْصَنَاتُ </string>
+    <string name="a6">لَا يُحِبُّ اللَّهُ </string>
+    <string name="a7">وَإِذَا سَمِعُوا</string>
+    <string name="a8">وَلَوْ أَنَّنَا </string>
+    <string name="a9">قَالَ الْمَلَأُ</string>
+    <string name="a10">وَاعْلَمُوا</string>
+    <string name="a11"> يَعْتَذِرُونَ </string>
+    <string name="a12">وَمَا مِنْ دَابَّةٍ</string>
+    <string name="a13">وَمَا أُبَرِّئُ</string>
+    <string name="a14">رُبَمَا</string>
+    <string name="a15">سُبْحَانَ الَّذِي </string>
+    <string name="a16">قَالَ أَلَمْ</string>
+    <string name="a17">اقْتَرَبَ</string>
+    <string name="a18">قَدْ أَفْلَحَ</string>
+    <string name="a19">وَقَالَ الَّذِينَ</string>
+    <string name="a20">أَمَّنْ خَلَقَ</string>
+    <string name="a21">اتْلُ مَا أُوحِيَ</string>
+    <string name="a22">وَمَنْ يَقْنُتْ </string>
+    <string name="a23"> وَمَا لِيَ</string>
+    <string name="a24">فَمَنْ أَظْلَمُ</string>
+    <string name="a25">إِلَيْهِ يُرَدُّ</string>
+    <string name="a26">حم</string>
+    <string name="a27">قَالَ فَمَا خَطْبُكُمْ</string>
+    <string name="a28">قَدْ سَمِعَ اللَّهُ</string>
+    <string name="a29">تَبَارَكَ الَّذِي </string>
+    <string name="a30">عَمَّ يَتَسَاءَلُونَ</string>
+
+    <string-array name="juzNameArray">
+        <item>@string/a1</item>
+        <item>@string/a2</item>
+        <item>@string/a3</item>
+        <item>@string/a4</item>
+        <item>@string/a5</item>
+        <item>@string/a6</item>
+        <item>@string/a7</item>
+        <item>@string/a8</item>
+        <item>@string/a9</item>
+        <item>@string/a10</item>
+        <item>@string/a11</item>
+        <item>@string/a12</item>
+        <item>@string/a13</item>
+        <item>@string/a14</item>
+        <item>@string/a15</item>
+        <item>@string/a16</item>
+        <item>@string/a17</item>
+        <item>@string/a18</item>
+        <item>@string/a19</item>
+        <item>@string/a20</item>
+        <item>@string/a21</item>
+        <item>@string/a22</item>
+        <item>@string/a23</item>
+        <item>@string/a24</item>
+        <item>@string/a25</item>
+        <item>@string/a26</item>
+        <item>@string/a27</item>
+        <item>@string/a28</item>
+        <item>@string/a29</item>
+        <item>@string/a30</item>
+    </string-array>
+</resources>
