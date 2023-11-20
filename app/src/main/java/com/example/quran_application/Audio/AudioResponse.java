@@ -3,9 +3,9 @@ package com.example.quran_application.Audio;
 import java.util.List;
 
 public class AudioResponse {
-    private List<Audio> audio_file;
+    public List<Audio> audio_files;
 
     public List<Audio> getAudio_file() {
-        return audio_file;
+        return audio_files;
     }
 }

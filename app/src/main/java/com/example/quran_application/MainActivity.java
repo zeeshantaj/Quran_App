@@ -134,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             animateButtonColorChange(downloadBtn, defaultColor, defaultTextColor, animationDuration);
         }
+        if (currentFragment instanceof AudioFragment) {
+            animateButtonColorChange(audio, color, textColor, animationDuration);
+        } else {
+            animateButtonColorChange(audio, defaultColor, defaultTextColor, animationDuration);
+        }
 
 //        if (currentFragment instanceof Surah_Fragment){
 //            surahBtn.setBackgroundColor(color);

@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quran_application.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.ViewHolder> {
 
-    private List<Audio> audio_file;
+    List<Audio> audio_file = new ArrayList<>();
 
     public AudioListAdapter(List<Audio> audio_file) {
         this.audio_file = audio_file;
@@ -34,9 +35,6 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
 
         Audio audio = audio_file.get(position);
         holder.chapterNumber.setText(String.valueOf(audio.getChapter_id()));
-
-
-
     }
 
     @Override

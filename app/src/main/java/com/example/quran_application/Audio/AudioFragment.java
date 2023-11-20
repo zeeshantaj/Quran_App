@@ -31,7 +31,7 @@ public class AudioFragment extends Fragment {
     }
 
     private AudioListAdapter adapter;
-    List<Audio> audioList = new ArrayList<>();
+    private List<Audio> audioList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,6 +42,7 @@ public class AudioFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
+        audioList = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.quran.com/")
@@ -55,10 +56,15 @@ public class AudioFragment extends Fragment {
             @Override
             public void onResponse(Call<AudioResponse> call, Response<AudioResponse> response) {
                 if (response.isSuccessful()){
+
                     AudioResponse audioResponse = response.body();
                     audioList = audioResponse.getAudio_file();
+                    for (Audio audio:audioList){
+                        Log.e("MyApp","AudioResponse"+audio.getAudio_url());
+
+                    }
                     adapter = new AudioListAdapter(audioList);
-                    recyclerView.setAdapter(adapter);
+                        recyclerView.setAdapter(adapter);
                 }
                 else {
                     Toast.makeText(getActivity(), "Response Error "+response.message(), Toast.LENGTH_SHORT).show();
