@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.quran_application.Audio.AudioFragment;
 import com.example.quran_application.Chapter_response.Chapter;
 import com.example.quran_application.Chapter_response.ChapterResponse;
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
@@ -51,7 +52,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
 
-    private MaterialButton paraBtn,surahBtn,downloadBtn;
+    private MaterialButton paraBtn,surahBtn,downloadBtn,audio;
 
     private FragmentManager fragmentManager;
     private Fragment currentFragment;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         paraBtn = findViewById(R.id.paraBtn);
+        audio = findViewById(R.id.audioBtn);
         surahBtn = findViewById(R.id.surahBtn);
         downloadBtn = findViewById(R.id.downloadBtn);
 
@@ -90,6 +92,15 @@ public class MainActivity extends AppCompatActivity {
                 setFragment(new Download_Fragment());
             }
         });
+
+        audio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragment(new AudioFragment());
+
+            }
+        });
+
 
         setFragment(currentFragment);
       //  setColor();

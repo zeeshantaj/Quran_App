@@ -33,6 +33,11 @@
     <string name="a28">قَدْ سَمِعَ اللَّهُ</string>
     <string name="a29">تَبَارَكَ الَّذِي </string>
     <string name="a30">عَمَّ يَتَسَاءَلُونَ</string>
+    <string name="chapter_number">Chapter Number:</string>
+    <string name="audio">Audio</string>
+    <string name="para">Para</string>
+    <string name="surah">Surah</string>
+    <string name="download">Download</string>
 
     <string-array name="juzNameArray">
         <item>@string/a1</item>
