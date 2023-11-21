@@ -38,6 +38,9 @@
     <string name="para">Para</string>
     <string name="surah">Surah</string>
     <string name="download">Download</string>
+    <string name="file_size">File Size:</string>
+    <string name="file_type">File Type:</string>
+    <string name="recitation_by">Recitation by:</string>
 
     <string-array name="juzNameArray">
         <item>@string/a1</item>

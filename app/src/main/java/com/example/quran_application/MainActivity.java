@@ -39,6 +39,7 @@ import com.example.quran_application.Translation.TranslationList;
 import com.example.quran_application.Translation.Translation_Info;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private Fragment currentFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,19 +77,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setFragment(new Para_Fragment());
-
             }
         });
         surahBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setFragment(new Surah_Fragment());
+
             }
         });
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setFragment(new Download_Fragment());
+
             }
         });
 

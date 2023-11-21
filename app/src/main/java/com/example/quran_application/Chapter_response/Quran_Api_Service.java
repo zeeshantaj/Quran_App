@@ -33,7 +33,7 @@ public interface Quran_Api_Service {
     @GET("api/v4/resources/translations")
     Call<Translation_Info> getTranslationList();
 
-    @GET("api/v4/chapter_recitations/12?language=ar")
+    @GET("api/v4/chapter_recitations/3?language=ar")
         Call<AudioResponse> getAudioResponse();
 
     //https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?chapter_number=21

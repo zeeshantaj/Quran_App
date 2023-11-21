@@ -60,7 +60,7 @@ public class AudioFragment extends Fragment {
                     AudioResponse audioResponse = response.body();
                     audioList = audioResponse.getAudio_file();
                     for (Audio audio:audioList){
-                        Log.e("MyApp","AudioResponse"+audio.getAudio_url());
+                        //Log.e("MyApp","AudioResponse"+audio.getAudio_url());
 
                     }
                     adapter = new AudioListAdapter(audioList);
