@@ -15,7 +15,7 @@ import com.example.quran_application.R;
 
 public class Play_Activity extends AppCompatActivity {
     private SeekBar seekBar;
-    private boolean isPlaying = false;
+    private boolean isPlaying;
     private MediaPlayer mediaPlayer;
     private ImageView play,round;
     private TextView chapterNum;
@@ -42,30 +42,27 @@ public class Play_Activity extends AppCompatActivity {
         Log.e("MyApp","url+format+size+chapter"+audioUrl+audioFormat+audioSize+chapterNumber);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.music);
-
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-
-                if (!isPlaying){
-                    isPlaying = true;
-                    Log.e("MyApp","isplaying"+isPlaying);
-                    play.setImageResource(R.drawable.play_vector);
-
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                }
-
                 if (isPlaying){
-                    play.setImageResource(R.drawable.pause_vector);
                     isPlaying = false;
-                    Log.e("MyApp","isplaying"+isPlaying);
-                    mediaPlayer.start();
-
+                    play.setImageResource(R.drawable.play_vector);
+                    if (mediaPlayer != null) {
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                        mediaPlayer = null;
+                    }
                 }
-
+                else {
+                    play.setImageResource(R.drawable.pause_vector);
+                    isPlaying = true;
+                    if (mediaPlayer == null) {
+                        mediaPlayer = MediaPlayer.create(Play_Activity.this, R.raw.music);
+                    }
+                    mediaPlayer.start();
+                }
             }
         });
 
