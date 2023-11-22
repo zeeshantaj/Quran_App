@@ -61,8 +61,8 @@
 
     <ImageView
         android:id="@+id/play"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:clickable="true"
         android:focusable="true"
         android:layout_marginBottom="20dp"
@@ -71,6 +71,32 @@
         app:layout_constraintEnd_toEndOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="@+id/seekBar" />
 
+    <TextView
+        android:id="@+id/startTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+
+        android:textColor="?android:textColor"
+        android:textSize="18sp"
+        android:text="00:00"
+        app:layout_constraintBottom_toTopOf="@+id/play"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
+    <TextView
+        android:id="@+id/endTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="00:00"
+        android:textColor="?android:textColor"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
+
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
@@ -78,14 +104,12 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:progress="0"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:progressBackgroundTint="?android:textColor"
         android:progressTint="?android:textColor"
         android:thumbTint="?android:textColor"
         app:layout_constraintBottom_toTopOf="@+id/play"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/endTime"
+        app:layout_constraintStart_toEndOf="@+id/startTime" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,13 +21,14 @@ import android.widget.TextView;
 import com.example.quran_application.R;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class Play_Activity extends AppCompatActivity {
     private SeekBar seekBar;
     private boolean isPlaying;
     private MediaPlayer mediaPlayer;
     private ImageView play,round;
-    private TextView chapterNum;
+    private TextView chapterNum,startTime,endTime;
     private Handler handler;
     private ProgressBar progressBar;
     private int total;
@@ -41,6 +42,8 @@ public class Play_Activity extends AppCompatActivity {
         round = findViewById(R.id.roundPlay);
         progressBar = findViewById(R.id.myProgressBar);
         chapterNum = findViewById(R.id.chapterTxt);
+        startTime = findViewById(R.id.startTime);
+        endTime = findViewById(R.id.endTime);
         handler = new Handler();
 
         Intent intent = getIntent();
@@ -50,10 +53,6 @@ public class Play_Activity extends AppCompatActivity {
         int chapterNumber = intent.getIntExtra("audioChapter",0);
 
         chapterNum.setText(String.valueOf(chapterNumber));
-
-
-
-        Log.e("MyApp","url+format+size+chapter"+audioUrl+audioFormat+audioSize+chapterNumber);
 
         mediaPlayer = new MediaPlayer();
 
@@ -89,6 +88,10 @@ public class Play_Activity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE); // Hide progress bar when playback starts
                                 updateSeekBar();
 
+                                int duration = mp.getDuration();
+                                String formattedTime = millisecondsToTime(duration);
+                                endTime.setText(formattedTime);
+
                             }
                         });
                         mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
@@ -98,6 +101,8 @@ public class Play_Activity extends AppCompatActivity {
                                     progressBar.setVisibility(View.VISIBLE); // Show progress bar while buffering
                                     progressBar.setIndeterminate(false);
                                     progressBar.setProgress(percent);
+
+
                                 } else {
                                     progressBar.setVisibility(View.GONE); // Hide progress bar when buffering is complete
                                 }
@@ -119,6 +124,21 @@ public class Play_Activity extends AppCompatActivity {
         });
 
     }
+    public String millisecondsToTime(long milliseconds) {
+        int hours = (int) (milliseconds / (1000 * 60 * 60));
+        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+
+        String time;
+
+        if (hours > 0) {
+            time = String.format(Locale.US,"%02d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            time = String.format(Locale.US,"%02d:%02d", minutes, seconds);
+        }
+
+        return time;
+    }
     private void updateSeekBar() {
         handler.postDelayed(new Runnable() {
             @Override
@@ -128,12 +148,30 @@ public class Play_Activity extends AppCompatActivity {
                     total = mediaPlayer.getDuration();
                     seekBar.setProgress(currentPosition);
                     seekBar.setMax(total);
-                    handler.postDelayed(this, 1000);
 
+                  //  int currentPosition = mediaPlayer.getCurrentPosition();
+
+                    // Calculate minutes and seconds of the current position
+                    int minutes = (currentPosition / 1000) / 60;
+                    int seconds = (currentPosition / 1000) % 60;
+
+                    // Update duration TextView with the current position
+                    String durationString = String.format(Locale.US,"%02d:%02d", minutes, seconds);
+                    startTime.setText(durationString);
+
+                    handler.postDelayed(this, 1000);
                 }
             }
         }, 1000);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mediaPlayer.stop();
+    }
+
+
     private void startAnimation(View view) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(round,"rotation",0f,360f);
         animator.setDuration(1000);
