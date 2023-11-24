@@ -6,6 +6,15 @@ public class Audio {
     private double file_size;
     private String format;
     private String audio_url;
+    private String surah_name_arabic;
+
+    public String getSurah_name_arabic() {
+        return surah_name_arabic;
+    }
+
+    public void setSurah_name_arabic(String surah_name_arabic) {
+        this.surah_name_arabic = surah_name_arabic;
+    }
 
     public int getId() {
         return id;

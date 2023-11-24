@@ -60,6 +60,7 @@
                 android:layout_marginStart="5dp"
                 android:gravity="start"
                 android:textColor="@color/blue"
+                android:fontFamily="@font/quran_text"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/text"
                 app:layout_constraintStart_toEndOf="@+id/text"

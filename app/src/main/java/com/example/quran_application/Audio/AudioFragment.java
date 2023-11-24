@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quran_application.Chapter_response.ChapterResponse;
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
+import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.R;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ public class AudioFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.audioRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
 
         audioList = new ArrayList<>();

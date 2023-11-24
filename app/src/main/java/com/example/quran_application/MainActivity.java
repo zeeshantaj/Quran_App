@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +36,7 @@ import com.example.quran_application.Chapter_response.Quran_Api_Service;
 import com.example.quran_application.Adaper.ChapterAdapter;
 import com.example.quran_application.Downloads.Download_Fragment;
 import com.example.quran_application.Fragment.Progress_Download_Fragment;
+import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.Translation.TranslationList;
 import com.example.quran_application.Translation.Translation_Info;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
@@ -57,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private Fragment currentFragment;
+    private SharedViewModel sharedViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
         paraBtn = findViewById(R.id.paraBtn);
         audio = findViewById(R.id.audioBtn);

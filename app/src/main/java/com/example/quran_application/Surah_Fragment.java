@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.example.quran_application.Adaper.ChapterAdapter;
 import com.example.quran_application.Chapter_response.Chapter;
 import com.example.quran_application.Chapter_response.ChapterResponse;
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
+import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
 
 import java.util.ArrayList;
@@ -80,6 +82,15 @@ public class Surah_Fragment extends Fragment {
                     chaptersList = chaptersResponse.getChapters();
                     chapterAdapter= new ChapterAdapter(chaptersList);
                     recyclerView.setAdapter(chapterAdapter);
+
+                    SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+                    List<String> surahNameList = new ArrayList<>();
+                    for (Chapter chapter : chaptersList) {
+                        surahNameList.add(chapter.getName_arabic());
+                        sharedViewModel.setSurahNameListData(chapter.getName_arabic());
+                    }
+
 
                 } else {
                     Toast.makeText(getActivity(), "Response Error "+response.message(), Toast.LENGTH_SHORT).show();

@@ -28,7 +28,7 @@ public class Play_Activity extends AppCompatActivity {
     private boolean isPlaying;
     private MediaPlayer mediaPlayer;
     private ImageView play,round;
-    private TextView chapterNum,startTime,endTime;
+    private TextView chapterNum,startTime,endTime,nameArabic;
     private Handler handler;
     private ProgressBar progressBar;
     private int total;
@@ -43,16 +43,20 @@ public class Play_Activity extends AppCompatActivity {
         progressBar = findViewById(R.id.myProgressBar);
         chapterNum = findViewById(R.id.chapterTxt);
         startTime = findViewById(R.id.startTime);
+        nameArabic = findViewById(R.id.nameArabic);
         endTime = findViewById(R.id.endTime);
         handler = new Handler();
 
         Intent intent = getIntent();
         String audioUrl = intent.getStringExtra("audioUrl");
         String audioFormat = intent.getStringExtra("audioFormat");
+        String name = intent.getStringExtra("audioSurahName");
         double audioSize = intent.getDoubleExtra("audioSize",0);
         int chapterNumber = intent.getIntExtra("audioChapter",0);
 
         chapterNum.setText(String.valueOf(chapterNumber));
+        nameArabic.setText(name);
+
 
         mediaPlayer = new MediaPlayer();
 
@@ -74,12 +78,14 @@ public class Play_Activity extends AppCompatActivity {
                 else {
                     play.setImageResource(R.drawable.pause_vector);
                     isPlaying = true;
-                    if (mediaPlayer == null) {
-                        mediaPlayer = MediaPlayer.create(Play_Activity.this, R.raw.music);
-                    }
+//                    if (mediaPlayer == null) {
+//                        mediaPlayer = MediaPlayer.create(Play_Activity.this, R.raw.music);
+//                    }
 
                     try {
+
                         mediaPlayer.setDataSource(audioUrl);
+
                         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
                             public void onPrepared(MediaPlayer mp) {
