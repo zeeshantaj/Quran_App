@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quran_application.Chapter_response.ChapterResponse;
@@ -33,15 +34,18 @@ public class AudioFragment extends Fragment {
     }
 
     private AudioListAdapter adapter;
-    private List<Audio> audioList;
+    public static List<Audio> audioList;
+    public static RecyclerView recyclerView;
+    public static LinearLayoutManager layoutManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.audio_fragment, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.audioRecycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView = view.findViewById(R.id.audioRecycler);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
 
 
@@ -62,12 +66,8 @@ public class AudioFragment extends Fragment {
 
                     AudioResponse audioResponse = response.body();
                     audioList = audioResponse.getAudio_file();
-                    for (Audio audio:audioList){
-                        //Log.e("MyApp","AudioResponse"+audio.getAudio_url());
-
-                    }
                     adapter = new AudioListAdapter(audioList);
-                        recyclerView.setAdapter(adapter);
+                    recyclerView.setAdapter(adapter);
                 }
                 else {
                     Toast.makeText(getActivity(), "Response Error "+response.message(), Toast.LENGTH_SHORT).show();
@@ -83,4 +83,27 @@ public class AudioFragment extends Fragment {
 
         return view;
     }
+
+    public static void performSearchForAudio(int query) {
+        int positionToScroll = -1;
+        for (int i = 0; i < audioList.size(); i++) {
+            if (audioList.get(i).getChapter_id() == query) {
+                positionToScroll = i;
+                break; // Stop searching after finding the first match
+            }
+        }
+        if (positionToScroll != -1) {
+            LinearSmoothScroller smoothScroller = new LinearSmoothScroller(recyclerView.getContext()) {
+                @Override
+                protected int getVerticalSnapPreference() {
+                    return LinearSmoothScroller.SNAP_TO_START;
+                }
+            };
+            smoothScroller.setTargetPosition(positionToScroll);
+            layoutManager.startSmoothScroll(smoothScroller);
+        } else {
+            Toast.makeText(recyclerView.getContext(), "No matching item found"+query, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

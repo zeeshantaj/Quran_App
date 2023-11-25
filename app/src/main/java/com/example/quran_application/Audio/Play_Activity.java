@@ -1,6 +1,10 @@
 package com.example.quran_application.Audio;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -8,15 +12,18 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.window.OnBackInvokedDispatcher;
 
 import com.example.quran_application.R;
 
@@ -31,7 +38,8 @@ public class Play_Activity extends AppCompatActivity {
     private TextView chapterNum,startTime,endTime,nameArabic;
     private Handler handler;
     private ProgressBar progressBar;
-    private int total;
+    private int total,chapterNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +49,6 @@ public class Play_Activity extends AppCompatActivity {
         play = findViewById(R.id.play);
         round = findViewById(R.id.roundPlay);
         progressBar = findViewById(R.id.myProgressBar);
-        chapterNum = findViewById(R.id.chapterTxt);
         startTime = findViewById(R.id.startTime);
         nameArabic = findViewById(R.id.nameArabic);
         endTime = findViewById(R.id.endTime);
@@ -52,15 +59,13 @@ public class Play_Activity extends AppCompatActivity {
         String audioFormat = intent.getStringExtra("audioFormat");
         String name = intent.getStringExtra("audioSurahName");
         double audioSize = intent.getDoubleExtra("audioSize",0);
-        int chapterNumber = intent.getIntExtra("audioChapter",0);
+        chapterNumber = intent.getIntExtra("audioChapter",0);
 
-        chapterNum.setText(String.valueOf(chapterNumber));
+        //chapterNum.setText(String.valueOf(chapterNumber));
         nameArabic.setText(name);
 
 
         mediaPlayer = new MediaPlayer();
-
-
         //mediaPlayer = MediaPlayer.create(this, R.raw.music);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +134,7 @@ public class Play_Activity extends AppCompatActivity {
             }
         });
 
+        setToolbar();
     }
     public String millisecondsToTime(long milliseconds) {
         int hours = (int) (milliseconds / (1000 * 60 * 60));
@@ -174,9 +180,39 @@ public class Play_Activity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        mediaPlayer.release();
         mediaPlayer.stop();
     }
 
+    private void setToolbar() {
+        Toolbar toolbar = findViewById(R.id.playTollBar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        String chap = String.valueOf(chapterNumber);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setTitle("Chapter Number: "+chap);
+        }
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getOnBackInvokedDispatcher();
+            }
+            else {
+                onBackPressed();
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
 
     private void startAnimation(View view) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(round,"rotation",0f,360f);

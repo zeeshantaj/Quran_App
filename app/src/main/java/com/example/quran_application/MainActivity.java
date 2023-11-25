@@ -1,5 +1,6 @@
 package com.example.quran_application;
 
+import static com.example.quran_application.Audio.AudioFragment.performSearchForAudio;
 import static com.example.quran_application.Para_Fragment.performSearchForJuz;
 import static com.example.quran_application.Surah_Fragment.performSearch;
 
@@ -191,9 +192,6 @@ public class MainActivity extends AppCompatActivity {
         currentFragment = fragment;
         setColor();
     }
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu,menu);
@@ -201,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.action_search);
 
         SearchView searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint("type Chapter number here");
+        searchView.setQueryHint("type number here");
         //searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -212,16 +210,16 @@ public class MainActivity extends AppCompatActivity {
 
                     if (currentFragment instanceof Surah_Fragment){
                         performSearch(convertedQuery);
-
                     }
                     else if (currentFragment instanceof Para_Fragment){
                          performSearchForJuz(convertedQuery);
                     }
-                    else if (currentFragment instanceof Download_Fragment){
+                    else if (currentFragment instanceof AudioFragment){
+                        performSearchForAudio(convertedQuery);
+                    }
+                    else if (currentFragment instanceof Download_Fragment) {
 
                     }
-
-
                 }
                 catch (NumberFormatException e){
                     Toast.makeText(MainActivity.this, "Error "+e.getLocalizedMessage()+"\nEnter Valid Input", Toast.LENGTH_SHORT).show();
