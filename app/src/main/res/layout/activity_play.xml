@@ -63,7 +63,7 @@
         android:clickable="true"
         android:focusable="true"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/play_vector"
+        android:src="@drawable/pause_vector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="@+id/seekBar" />

@@ -71,69 +71,107 @@ public class Play_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (isPlaying){
-                    isPlaying = false;
-                    play.setImageResource(R.drawable.play_vector);
-                    if (mediaPlayer != null) {
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
-                        mediaPlayer = null;
-                    }
-                }
-                else {
-                    play.setImageResource(R.drawable.pause_vector);
-                    isPlaying = true;
-//                    if (mediaPlayer == null) {
-//                        mediaPlayer = MediaPlayer.create(Play_Activity.this, R.raw.music);
+//                if (isPlaying){
+//                    isPlaying = false;
+//                    play.setImageResource(R.drawable.play_vector);
+////                    if (mediaPlayer != null) {
+////                        mediaPlayer.stop();
+////                        mediaPlayer.release();
+////                        mediaPlayer = null;
+////                    }
+//                    if (mediaPlayer.isPlaying()){
+//                        mediaPlayer.pause();
 //                    }
+//                    else {
+//                        mediaPlayer.start();
+//                    }
+//                }
+//                else {
+//                    play.setImageResource(R.drawable.pause_vector);
+//                    isPlaying = true;
+//
+//                }
 
-                    try {
-
-                        mediaPlayer.setDataSource(audioUrl);
-
-                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                // Start playing when prepared
-                                mediaPlayer.start();
-                                progressBar.setVisibility(View.GONE); // Hide progress bar when playback starts
-                                updateSeekBar();
-
-                                int duration = mp.getDuration();
-                                String formattedTime = millisecondsToTime(duration);
-                                endTime.setText(formattedTime);
-
-                            }
-                        });
-                        mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-                            @Override
-                            public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                                if (percent < 100) {
-                                    progressBar.setVisibility(View.VISIBLE); // Show progress bar while buffering
-                                    progressBar.setIndeterminate(false);
-                                    progressBar.setProgress(percent);
-
-
-                                } else {
-                                    progressBar.setVisibility(View.GONE); // Hide progress bar when buffering is complete
-                                }
-                            }
-                        });
-                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                // Handle completion if needed
-                            }
-                        });
-                        mediaPlayer.prepareAsync();
-                    }
-                    catch (IOException e){
-                        e.printStackTrace();
-                    }
+//                if (mediaPlayer.isPlaying()){
+//                    play.setBackgroundResource(R.drawable.play_vector);
+//                    mediaPlayer.pause();
+//                }
+//                else {
+//                    play.setBackgroundResource(R.drawable.pause_vector);
+//                    mediaPlayer.start();
+//                }
+                play.setImageResource(R.drawable.play_vector);
+                if (isPlaying){
+                    mediaPlayer.pause();
+                    isPlaying = false;
+                } else {
+                    mediaPlayer.start();
+                    isPlaying = true;
+                    play.setImageResource(R.drawable.pause_vector);
                 }
+                Log.e("MyApp","isPlaying"+isPlaying);
             }
         });
 
+        try {
+
+            mediaPlayer.setDataSource(audioUrl);
+
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    // Start playing when prepared
+                    mediaPlayer.start();
+                    progressBar.setVisibility(View.GONE); // Hide progress bar when playback starts
+                    updateSeekBar();
+
+                    int duration = mp.getDuration();
+                    String formattedTime = millisecondsToTime(duration);
+                    endTime.setText(formattedTime);
+                    isPlaying = true;
+                }
+            });
+            mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                @Override
+                public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                    if (percent < 100) {
+                        progressBar.setVisibility(View.VISIBLE); // Show progress bar while buffering
+                        progressBar.setIndeterminate(false);
+                        progressBar.setProgress(percent);
+
+
+                    } else {
+                        progressBar.setVisibility(View.GONE); // Hide progress bar when buffering is complete
+                    }
+                }
+            });
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // Handle completion if needed
+                }
+            });
+            mediaPlayer.prepareAsync();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mediaPlayer.seekTo(seekBar.getProgress());
+            }
+        });
         setToolbar();
     }
     public String millisecondsToTime(long milliseconds) {
@@ -178,10 +216,19 @@ public class Play_Activity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("MyApp", "destroy");
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        mediaPlayer.release();
-        mediaPlayer.stop();
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.release();
+            mediaPlayer.stop();
+        }
+        Log.e("MyApp", "stop");
     }
 
     private void setToolbar() {
