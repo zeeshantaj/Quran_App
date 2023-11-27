@@ -10,6 +10,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -34,7 +36,7 @@ public class Play_Activity extends AppCompatActivity {
     private SeekBar seekBar;
     private boolean isPlaying;
     private MediaPlayer mediaPlayer;
-    private ImageView play,round;
+    private ImageView play,round,forward,backward;
     private TextView chapterNum,startTime,endTime,nameArabic;
     private Handler handler;
     private ProgressBar progressBar;
@@ -51,6 +53,8 @@ public class Play_Activity extends AppCompatActivity {
         progressBar = findViewById(R.id.myProgressBar);
         startTime = findViewById(R.id.startTime);
         nameArabic = findViewById(R.id.nameArabic);
+        forward = findViewById(R.id.fastForwardBtn);
+        backward = findViewById(R.id.fastBackwardBtn);
         endTime = findViewById(R.id.endTime);
         handler = new Handler();
 
@@ -66,6 +70,11 @@ public class Play_Activity extends AppCompatActivity {
 
 
         mediaPlayer = new MediaPlayer();
+        if ( mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
         //mediaPlayer = MediaPlayer.create(this, R.raw.music);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +181,22 @@ public class Play_Activity extends AppCompatActivity {
                 mediaPlayer.seekTo(seekBar.getProgress());
             }
         });
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer.isPlaying()){
+                    mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 10000);
+                }
+            }
+        });
+        backward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer.isPlaying()){
+                    mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000);
+                }
+            }
+        });
         setToolbar();
     }
     public String millisecondsToTime(long milliseconds) {
@@ -188,6 +213,7 @@ public class Play_Activity extends AppCompatActivity {
         }
 
         return time;
+
     }
     private void updateSeekBar() {
         handler.postDelayed(new Runnable() {
@@ -215,21 +241,7 @@ public class Play_Activity extends AppCompatActivity {
         }, 1000);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("MyApp", "destroy");
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mediaPlayer.isPlaying()){
-            mediaPlayer.release();
-            mediaPlayer.stop();
-        }
-        Log.e("MyApp", "stop");
-    }
 
     private void setToolbar() {
         Toolbar toolbar = findViewById(R.id.playTollBar);
@@ -248,18 +260,61 @@ public class Play_Activity extends AppCompatActivity {
 
         int id = item.getItemId();
         if (id == android.R.id.home){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                getOnBackInvokedDispatcher();
+
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                showConfirmationDialog();
             }
             else {
-                onBackPressed();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    getOnBackInvokedDispatcher();
+                } else {
+                    onBackPressed();
+                }
             }
             return true;
         }
-
         return super.onOptionsItemSelected(item);
-
     }
+
+
+
+    private void showConfirmationDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Do you want to continue playing in the background?");
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Continue playing in the background
+                // Implement code here to handle playing in the background
+                mediaPlayer.start();
+                finish();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Stop playing and go back
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                finish();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        if (mediaPlayer != null) {
+//            mediaPlayer.release();
+//            mediaPlayer = null;
+//        }
+    }
+
 
     private void startAnimation(View view) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(round,"rotation",0f,360f);
