@@ -241,8 +241,6 @@ public class Play_Activity extends AppCompatActivity {
         }, 1000);
     }
 
-
-
     private void setToolbar() {
         Toolbar toolbar = findViewById(R.id.playTollBar);
         setSupportActionBar(toolbar);
@@ -275,9 +273,6 @@ public class Play_Activity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
     private void showConfirmationDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Do you want to continue playing in the background?");
@@ -304,8 +299,6 @@ public class Play_Activity extends AppCompatActivity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

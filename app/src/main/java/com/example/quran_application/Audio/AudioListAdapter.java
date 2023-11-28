@@ -38,7 +38,7 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
     @NonNull
     @Override
     public AudioListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.audio_surah_list,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.audio_surah_list2,parent,false);
         return new ViewHolder(view);
     }
 
@@ -49,6 +49,7 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
         holder.chapterNumber.setText(String.valueOf(audio.getChapter_id()));
         holder.fileType.setText(audio.getFormat());
         holder.fileSize.setText(String.valueOf(audio.getFile_size()));
+        holder.recitName.setSelected(true);
 
         SharedViewModel sharedViewModel = new ViewModelProvider((ViewModelStoreOwner) holder.itemView.getContext()).get(SharedViewModel.class);
         //Log.e("MyApp","SharedModelValueAdapter:"+sharedViewModel.getSurahNameData());
@@ -86,13 +87,14 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView chapterNumber,fileType,fileSize,surahNameAudio;
+        private TextView chapterNumber,fileType,fileSize,surahNameAudio,recitName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             chapterNumber = itemView.findViewById(R.id.chapterNumber);
             fileSize = itemView.findViewById(R.id.fileSizeText);
             fileType = itemView.findViewById(R.id.fileTypeText);
+            recitName = itemView.findViewById(R.id.textView11);
             surahNameAudio = itemView.findViewById(R.id.surahNameAudio);
 
         }
