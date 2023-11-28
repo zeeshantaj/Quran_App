@@ -10,6 +10,7 @@
         android:layout_margin="5dp"
         android:elevation="10dp"
         app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/cardShade"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,41 +30,52 @@
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/surahNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/baseline_star_outline_24"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                android:layout_marginStart="5dp"
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/round_shape"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SmallSp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
-                android:text="surah name"
-                android:textColor="@color/purple"
+                android:text="Surah Number"
+                android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/surahNumber"
-                app:layout_constraintTop_toTopOf="@+id/surahNumber" />
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="6dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/surahNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/text"
+                app:layout_constraintStart_toEndOf="@+id/text"
+                app:layout_constraintTop_toTopOf="@+id/text" />
             <TextView
                 android:id="@+id/surahName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:gravity="start"
-                android:textColor="@color/blue"
                 android:fontFamily="@font/quran_text"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/text"
-                app:layout_constraintStart_toEndOf="@+id/text"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/text" />
 
             <TextView
@@ -72,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="Total Aya:"
                 android:padding="2dp"
-                android:textColor="@color/purple"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/text"
                 app:layout_constraintTop_toBottomOf="@+id/text" />
@@ -81,8 +93,8 @@
                 android:id="@+id/totalAya"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/blue"
+                android:layout_marginStart="3dp"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textView"
