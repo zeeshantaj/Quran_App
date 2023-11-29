@@ -111,7 +111,7 @@ public class SurahDownloadedAdapter extends RecyclerView.Adapter<SurahDownloaded
             surahName = itemView.findViewById(R.id.surahNameDownloadProgress);
             surahNumber = itemView.findViewById(R.id.surahNumberDownloadProgress);
             radioButton = itemView.findViewById(R.id.rationButtonDownload);
-            progressBar = itemView.findViewById(R.id.progress);
+            //progressBar = itemView.findViewById(R.id.progress);
         }
     }
 }

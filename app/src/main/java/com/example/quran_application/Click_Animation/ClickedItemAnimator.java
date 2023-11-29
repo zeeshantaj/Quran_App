@@ -12,7 +12,6 @@ public class ClickedItemAnimator extends DefaultItemAnimator {
         view.setScaleX(0.9f);
         view.setScaleY(0.9f);
         view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(getChangeDuration()).start();
-
         return super.animateChange(oldHolder, newHolder, fromX, fromY, toX, toY);
     }
 }

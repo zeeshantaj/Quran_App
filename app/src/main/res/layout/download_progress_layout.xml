@@ -9,8 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:elevation="15dp"
-        app:cardCornerRadius="10dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/cardShade"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,41 +21,51 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/round_shape"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/surahNumberDownloadProgress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/baseline_star_outline_24"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SmallSp" />
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/text"
+                app:layout_constraintStart_toEndOf="@+id/text"
+                app:layout_constraintTop_toTopOf="@+id/text" />
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
-                android:text="surah name"
-                android:textColor="@color/purple"
+                android:text="Surah Number"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/surahNumberDownloadProgress"
-                app:layout_constraintTop_toTopOf="@+id/surahNumberDownloadProgress" />
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
             <TextView
                 android:id="@+id/surahNameDownloadProgress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:gravity="start"
-                android:textColor="@color/blue"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/text"
-                app:layout_constraintStart_toEndOf="@+id/text"
-                app:layout_constraintTop_toTopOf="@+id/text" />
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:fontFamily="@font/quran_text"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintEnd_toEndOf="@+id/imageView4"
+                app:layout_constraintStart_toStartOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
             <RadioButton
                 android:id="@+id/rationButtonDownload"
@@ -64,32 +75,32 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.mackhartley.roundedprogressbar.RoundedProgressBar
-                android:id="@+id/progress"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_margin="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/surahNumberDownloadProgress"
-                app:rpbBackgroundColor="#CCCCCC"
-                app:rpbBackgroundTextColor="#E0000F"
-                app:rpbCornerRadius="20dp"
-                android:visibility="gone"
-                app:rpbProgressColor="#888"
-                app:rpbProgressTextColor="#4ADBFF"
-                app:rpbTextPadding="12dp"
-                app:rpbTextSize="18sp" />
+<!--            <com.mackhartley.roundedprogressbar.RoundedProgressBar-->
+<!--                android:id="@+id/progress"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:visibility="visible"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:rpbBackgroundColor="#CCCCCC"-->
+<!--                app:rpbBackgroundTextColor="#E0000F"-->
+<!--                app:rpbCornerRadius="20dp"-->
+<!--                app:rpbProgressColor="#888"-->
+<!--                app:rpbProgressTextColor="#4ADBFF"-->
+<!--                app:rpbTextPadding="12dp"-->
+<!--                app:rpbTextSize="18sp" />-->
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_margin="16dp"
+                android:layout_margin="5dp"
                 android:max="100"
                 android:progress="0"
-                app:layout_constraintTop_toBottomOf="@+id/surahNumberDownloadProgress" />
+                android:progressTint="@color/lightBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/downloadProgressBtn"
@@ -97,7 +108,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:backgroundTint="@color/lightBlue"
-                android:text="Download"
+                android:text="@string/download"
+                android:textSize="18sp"
+                android:textAllCaps="false"
                 app:cornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
