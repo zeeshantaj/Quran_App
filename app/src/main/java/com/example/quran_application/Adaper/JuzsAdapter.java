@@ -3,6 +3,7 @@ package com.example.quran_application.Adaper;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -44,6 +45,23 @@ public class JuzsAdapter extends RecyclerView.Adapter<JuzsAdapter.ViewHolder> {
         if (position < strings.length){
             holder.juzName.setText(strings[position]);
         }
+        holder.itemView.setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    // Scale down the clicked item
+                    view.setScaleX(0.9f);
+                    view.setScaleY(0.9f);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    // Restore the original size when touch is released or canceled
+                    view.setScaleX(1.0f);
+                    view.setScaleY(1.0f);
+                    break;
+            }
+            return false;
+        });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -27,6 +27,7 @@ import com.example.quran_application.Adaper.ChapterAdapter;
 import com.example.quran_application.Chapter_response.Chapter;
 import com.example.quran_application.Chapter_response.ChapterResponse;
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
+import com.example.quran_application.Click_Animation.ClickedItemAnimator;
 import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
 
@@ -61,6 +62,9 @@ public class Surah_Fragment extends Fragment {
         chapterModel = new Chapter();
         layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
+
+        ClickedItemAnimator clickedItemAnimator = new ClickedItemAnimator();
+        recyclerView.setItemAnimator(clickedItemAnimator);
 
         chaptersList = new ArrayList<>();
 

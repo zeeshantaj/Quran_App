@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quran_application.Chapter_response.ChapterResponse;
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
+import com.example.quran_application.Click_Animation.ClickedItemAnimator;
 import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.R;
 
@@ -47,6 +48,8 @@ public class AudioFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        ClickedItemAnimator clickedItemAnimator = new ClickedItemAnimator();
+        recyclerView.setItemAnimator(clickedItemAnimator);
 
 
         audioList = new ArrayList<>();

@@ -17,6 +17,7 @@ import com.example.quran_application.Adaper.ChapterAdapter;
 import com.example.quran_application.Adaper.JuzsAdapter;
 import com.example.quran_application.Chapter_response.ChapterResponse;
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
+import com.example.quran_application.Click_Animation.ClickedItemAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,9 @@ public class Para_Fragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         juzsLists = new ArrayList<>();
         recyclerView.setLayoutManager(layoutManager);
+        ClickedItemAnimator clickedItemAnimator = new ClickedItemAnimator();
+        recyclerView.setItemAnimator(clickedItemAnimator);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.quran.com/")
                 .addConverterFactory(GsonConverterFactory.create())
