@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.quran_application.Chapter_response.Chapter;
 import com.example.quran_application.verses_response.Verse;
 
-@Database(entities ={Chapter.class, Verse.class}, version = 2, exportSchema = false)
+@Database(entities ={Chapter.class, VerseForDb.class}, version = 2, exportSchema = false)
 public abstract class RoomDB extends RoomDatabase {
     private static RoomDB database;
     private static String DATABASE_NAME = "CHAPTER_DB";

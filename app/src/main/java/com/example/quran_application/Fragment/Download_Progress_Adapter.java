@@ -127,9 +127,6 @@ public class Download_Progress_Adapter extends RecyclerView.Adapter<Download_Pro
     }
 
     private void saveVerses(int chapterNumber) {
-
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.quran.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -147,13 +144,13 @@ public class Download_Progress_Adapter extends RecyclerView.Adapter<Download_Pro
 
                     // Save the verses to your Room database.
                    for (Verse verse : verses){
-
                        Log.e("MyApp","response -> size"+verses.size());
                        Log.e("MyApp","response ->"+verse.getText_uthmani());
                        Log.e("MyApp","response ->"+verse.getVerse_key());
                        Log.e("MyApp","response ->"+verse.getId());
+
                        roomDB.mainDAO().insertVerse(verse);
-                       
+
                    }
 
 
@@ -167,9 +164,8 @@ public class Download_Progress_Adapter extends RecyclerView.Adapter<Download_Pro
             public void onFailure(Call<Verses_Response> call, Throwable t) {
                 // Handle the network error.
             }
+
         });
-
-
     }
 
     private void startCustomAnimation(ProgressBar progressBar) {

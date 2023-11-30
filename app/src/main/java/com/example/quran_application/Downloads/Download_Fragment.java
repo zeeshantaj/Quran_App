@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.quran_application.Chapter_response.Chapter;
 import com.example.quran_application.Database.RoomDB;
+import com.example.quran_application.Database.VerseForDb;
 import com.example.quran_application.R;
 import com.example.quran_application.verses_response.Verse;
 
@@ -48,9 +49,9 @@ public class Download_Fragment extends Fragment {
         for (int i = 0; i < chapters.size(); i++) {
             Chapter chapter = chapters.get(i);
             Log.e("MyApp","chapterDownloaded"+chapter.getId());
-            List<Verse> verses = roomDB.mainDAO().getALLVerseForChapter(chapter.getId());
+            List<VerseForDb> verses = roomDB.mainDAO().getALLVerseForChapter(chapter.getId());
 
-            for (Verse verse : verses){
+            for (VerseForDb verse : verses){
                 Log.e("MyApp","verseDownloaded"+verse.getVerse_key());
 
             }
