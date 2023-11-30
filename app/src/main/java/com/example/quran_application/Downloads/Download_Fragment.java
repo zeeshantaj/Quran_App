@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.example.quran_application.Chapter_response.Chapter;
 import com.example.quran_application.Database.RoomDB;
-import com.example.quran_application.Database.VerseForDb;
 import com.example.quran_application.R;
 import com.example.quran_application.verses_response.Verse;
 
