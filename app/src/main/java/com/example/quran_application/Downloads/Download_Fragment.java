@@ -55,7 +55,6 @@ public class Download_Fragment extends Fragment {
 
             }
         }
-
         return view;
     }
 

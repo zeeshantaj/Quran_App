@@ -15,14 +15,10 @@ import retrofit2.http.DELETE;
 
 @Dao
 public interface MainDAO {
-
     @Insert(onConflict = REPLACE)
     void insertSurah(Chapter chapter);
-
     @Insert(onConflict = REPLACE)
-    void insertVerse(List<Verse> verse);
-
-
+    void insertVerse(Verse verse);
     @Query("SELECT * FROM CHAPTERS")
     List<Chapter> getALLChapters();
     @Query("SELECT * FROM VERSE WHERE id = :id")
@@ -30,14 +26,9 @@ public interface MainDAO {
 
     @Query("SELECT * FROM VERSE WHERE id = :verseId")
     Verse getVerseById(int verseId);
-
-
     @Delete()
     void delete(Chapter chapter);
 
     @Delete()
     void deleteVerse(Verse verse);
-
-
-
 }

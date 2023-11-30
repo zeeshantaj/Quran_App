@@ -64,10 +64,6 @@ public class VersesActivity extends AppCompatActivity {
 
         //Intent savedIntent = getIntent();
 
-
-
-
-
         Intent  intent= getIntent();
         boolean isSaved = intent.getBooleanExtra("savedVerse",true);
         int savedChapterNumber = intent.getIntExtra("savedChapterNumber",0);
@@ -79,7 +75,7 @@ public class VersesActivity extends AppCompatActivity {
 
         if (isSaved){
               SavedVersesData(savedChapterNumber);
-            Log.e("MyApp","isSaved"+isSaved);
+
         }
         else {
             Retrofit retrofit = new Retrofit.Builder()

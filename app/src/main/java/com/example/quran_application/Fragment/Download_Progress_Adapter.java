@@ -147,12 +147,15 @@ public class Download_Progress_Adapter extends RecyclerView.Adapter<Download_Pro
 
                     // Save the verses to your Room database.
                    for (Verse verse : verses){
+
+                       Log.e("MyApp","response -> size"+verses.size());
                        Log.e("MyApp","response ->"+verse.getText_uthmani());
                        Log.e("MyApp","response ->"+verse.getVerse_key());
                        Log.e("MyApp","response ->"+verse.getId());
+                       roomDB.mainDAO().insertVerse(verse);
                        
                    }
-                    roomDB.mainDAO().insertVerse(verses);
+
 
                     } else {
                     // Handle the error.
