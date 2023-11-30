@@ -49,9 +49,9 @@ public class Download_Fragment extends Fragment {
         for (int i = 0; i < chapters.size(); i++) {
             Chapter chapter = chapters.get(i);
             Log.e("MyApp","chapterDownloaded"+chapter.getId());
-            List<VerseForDb> verses = roomDB.mainDAO().getALLVerseForChapter(chapter.getId());
+            List<Verse> verses = roomDB.mainDAO().getALLVerseForChapter(chapter.getId());
 
-            for (VerseForDb verse : verses){
+            for (Verse verse : verses){
                 Log.e("MyApp","verseDownloaded"+verse.getVerse_key());
 
             }
