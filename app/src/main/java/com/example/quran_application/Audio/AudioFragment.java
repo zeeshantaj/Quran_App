@@ -1,6 +1,7 @@
 package com.example.quran_application.Audio;
 
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,6 +84,15 @@ public class AudioFragment extends Fragment {
                 Log.e("MyApp","Error "+t.getLocalizedMessage());
             }
         });
+
+        Fade fade = new Fade();
+        View decor = getActivity().getWindow().getDecorView();
+        fade.excludeTarget(decor.findViewById(androidx.appcompat.R.id.action_bar_container), false);
+        fade.excludeTarget(android.R.id.statusBarBackground, true);
+        fade.excludeTarget(android.R.id.navigationBarBackground, true);
+
+        getActivity().getWindow().setEnterTransition(fade);
+        getActivity().getWindow().setExitTransition(fade);
 
         return view;
     }

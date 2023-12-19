@@ -2,6 +2,7 @@ package com.example.quran_application.Audio;
 
 import static com.google.gson.reflect.TypeToken.get;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -88,8 +91,11 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
                 intent.putExtra("audioFormat",audio.getFormat());
                 intent.putExtra("audioSize",audio.getFile_size());
                 intent.putExtra("audioSurahName",surahNames.get(position));
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(),
+                        holder.imageView,   // Shared element: image view in the RecyclerView item
+                        ViewCompat.getTransitionName(holder.imageView));
 
-                holder.itemView.getContext().startActivity(intent);
+                v.getContext().startActivity(intent,options.toBundle());
 
             }
         });
@@ -104,6 +110,7 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView chapterNumber,fileType,fileSize,surahNameAudio,recitName;
+        private ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -112,6 +119,7 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
             fileType = itemView.findViewById(R.id.fileTypeText);
             recitName = itemView.findViewById(R.id.textView11);
             surahNameAudio = itemView.findViewById(R.id.surahNameAudio);
+            imageView = itemView.findViewById(R.id.imageView);
 
         }
 
