@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.transition.Fade;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -26,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
 import com.example.quran_application.R;
@@ -42,6 +44,7 @@ public class Play_Activity extends AppCompatActivity {
     private Handler handler;
     private ProgressBar progressBar;
     private int total,chapterNumber;
+    private String audioUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,7 @@ public class Play_Activity extends AppCompatActivity {
         handler = new Handler();
 
         Intent intent = getIntent();
-        String audioUrl = intent.getStringExtra("audioUrl");
+        audioUrl = intent.getStringExtra("audioUrl");
         String audioFormat = intent.getStringExtra("audioFormat");
         String name = intent.getStringExtra("audioSurahName");
         double audioSize = intent.getDoubleExtra("audioSize",0);
@@ -263,6 +266,13 @@ public class Play_Activity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.audio_download_menu,menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -281,6 +291,26 @@ public class Play_Activity extends AppCompatActivity {
             }
             return true;
         }
+        if (id == R.id.audioDownloadBtn){
+            Toast.makeText(this, "downoadclicked", Toast.LENGTH_SHORT).show();
+            String destinationPath = "/path/to/save/audio.mp3"; // Change the destination path as needed
+
+            AudioDownloader audioDownloader = new AudioDownloader(this);
+            audioDownloader.downloadAudio(audioUrl, new AudioDownloader.DownloadListener() {
+                @Override
+                public void onDownloadCompleted(String filePath) {
+                    //Toast.makeText(Play_Activity.this, "Downloaded Successfully"+filePath, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onDownloadFailed(String errorMessage) {
+
+                }
+            });
+
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
     private void showConfirmationDialog() {

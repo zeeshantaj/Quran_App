@@ -101,11 +101,11 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/recitation_by"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="2dp"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
