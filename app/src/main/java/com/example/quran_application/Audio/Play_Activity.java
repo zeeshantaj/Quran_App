@@ -44,7 +44,7 @@ public class Play_Activity extends AppCompatActivity {
     private Handler handler;
     private ProgressBar progressBar;
     private int total,chapterNumber;
-    private String audioUrl;
+    private String audioUrl,audioName,audioNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +74,12 @@ public class Play_Activity extends AppCompatActivity {
         Intent intent = getIntent();
         audioUrl = intent.getStringExtra("audioUrl");
         String audioFormat = intent.getStringExtra("audioFormat");
-        String name = intent.getStringExtra("audioSurahName");
+        audioName = intent.getStringExtra("audioSurahName");
         double audioSize = intent.getDoubleExtra("audioSize",0);
         chapterNumber = intent.getIntExtra("audioChapter",0);
 
         //chapterNum.setText(String.valueOf(chapterNumber));
-        nameArabic.setText(name);
+        nameArabic.setText(audioName);
 
 
         mediaPlayer = new MediaPlayer();
@@ -296,7 +296,8 @@ public class Play_Activity extends AppCompatActivity {
             String destinationPath = "/path/to/save/audio.mp3"; // Change the destination path as needed
 
             AudioDownloader audioDownloader = new AudioDownloader(this);
-            audioDownloader.downloadAudio(audioUrl, new AudioDownloader.DownloadListener() {
+            audioNumber = String.valueOf(chapterNumber);
+            audioDownloader.downloadAudio(audioUrl,audioNumber,audioName, new AudioDownloader.DownloadListener() {
                 @Override
                 public void onDownloadCompleted(String filePath) {
                     //Toast.makeText(Play_Activity.this, "Downloaded Successfully"+filePath, Toast.LENGTH_SHORT).show();

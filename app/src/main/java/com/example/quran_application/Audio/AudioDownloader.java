@@ -25,7 +25,7 @@ public class AudioDownloader {
     public AudioDownloader(Context context) {
         this.context = context;
     }
-    public void downloadAudio(String url, final DownloadListener listener) {
+    public void downloadAudio(String url,String chapterNumber,String chapterName, final DownloadListener listener) {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -74,7 +74,11 @@ public class AudioDownloader {
 //                }
                 if (body != null) {
                     try (InputStream inputStream = body.byteStream()) {
-                        File publicDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "Downloaded_Quran_Surah");
+
+
+                        String fileName = chapterNumber + "_" + chapterName + ".mp3";
+
+                        File publicDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "Quran_App_Downloaded_Surah");
 
                         if (!publicDirectory.exists()) {
                             if (!publicDirectory.mkdirs()) {
@@ -86,7 +90,7 @@ public class AudioDownloader {
                             }
                         }
 
-                        File destinationFile = new File(publicDirectory, "audio.mp3");
+                        File destinationFile = new File(publicDirectory, fileName);
                         FileOutputStream outputStream = new FileOutputStream(destinationFile);
                         byte[] buffer = new byte[4 * 1024];
                         int read;
