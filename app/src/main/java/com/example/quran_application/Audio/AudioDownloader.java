@@ -1,6 +1,7 @@
 package com.example.quran_application.Audio;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -43,10 +44,49 @@ public class AudioDownloader {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 ResponseBody body = response.body();
+//                if (body != null) {
+//                    try (InputStream inputStream = body.byteStream()) {
+//                        String destinationPath = context.getFilesDir() + File.separator + "audio.mp3";
+//                        File destinationFile = new File(destinationPath);
+//                        FileOutputStream outputStream = new FileOutputStream(destinationFile);
+//                        byte[] buffer = new byte[4 * 1024];
+//                        int read;
+//                        while ((read = inputStream.read(buffer)) != -1) {
+//                            outputStream.write(buffer, 0, read);
+//                        }
+//                        outputStream.flush();
+//                        outputStream.close();
+//
+//                        if (listener != null) {
+//                            listener.onDownloadCompleted(destinationPath);
+//                            Handler handler = new Handler(Looper.getMainLooper());
+//                            handler.post(() -> {
+//                                Toast.makeText(context, "Audio downloaded"+destinationPath, Toast.LENGTH_SHORT).show();
+//                                Log.e("MyApp","destination"+destinationPath);
+//                            });
+//                        }
+//                    } catch (IOException e) {
+//                        // Handle IOException
+//                        if (listener != null) {
+//                            listener.onDownloadFailed(e.getMessage());
+//                        }
+//                    }
+//                }
                 if (body != null) {
                     try (InputStream inputStream = body.byteStream()) {
-                        String destinationPath = context.getFilesDir() + File.separator + "audio.mp3";
-                        File destinationFile = new File(destinationPath);
+                        File publicDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "Downloaded_Quran_Surah");
+
+                        if (!publicDirectory.exists()) {
+                            if (!publicDirectory.mkdirs()) {
+                                // Directory creation failed
+                                if (listener != null) {
+                                    listener.onDownloadFailed("Failed to create directory");
+                                }
+                                return;
+                            }
+                        }
+
+                        File destinationFile = new File(publicDirectory, "audio.mp3");
                         FileOutputStream outputStream = new FileOutputStream(destinationFile);
                         byte[] buffer = new byte[4 * 1024];
                         int read;
@@ -57,11 +97,12 @@ public class AudioDownloader {
                         outputStream.close();
 
                         if (listener != null) {
-                            listener.onDownloadCompleted(destinationPath);
+                            listener.onDownloadCompleted(destinationFile.getAbsolutePath());
+
                             Handler handler = new Handler(Looper.getMainLooper());
                             handler.post(() -> {
-                                Toast.makeText(context, "Audio downloaded"+destinationPath, Toast.LENGTH_SHORT).show();
-                                Log.e("MyApp","destination"+destinationPath);
+                                Toast.makeText(context, "Audio downloaded: " + destinationFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                                Log.e("MyApp", "destination: " + destinationFile.getAbsolutePath());
                             });
                         }
                     } catch (IOException e) {
@@ -71,6 +112,7 @@ public class AudioDownloader {
                         }
                     }
                 }
+
             }
         });
     }
