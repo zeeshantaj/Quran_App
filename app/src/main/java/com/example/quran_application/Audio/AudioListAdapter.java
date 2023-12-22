@@ -92,7 +92,8 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
                 intent.putExtra("audioSize",audio.getFile_size());
                 intent.putExtra("audioSurahName",surahNames.get(position));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(),
-                        holder.imageView,   // Shared element: image view in the RecyclerView item
+                        holder.imageView,
+                        // Shared element: image view in the RecyclerView item
                         ViewCompat.getTransitionName(holder.imageView));
 
                 v.getContext().startActivity(intent,options.toBundle());
