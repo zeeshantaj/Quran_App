@@ -45,11 +45,13 @@ public class Play_Activity extends AppCompatActivity {
     private ProgressBar progressBar;
     private int total,chapterNumber;
     private String audioUrl,audioName,audioNumber;
-
+    private ProgressBar downloadProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
+        downloadProgressBar = findViewById(R.id.audioProgressDownload);
 
         Fade fade = new Fade();
         View decor = getWindow().getDecorView();
@@ -295,6 +297,7 @@ public class Play_Activity extends AppCompatActivity {
             Toast.makeText(this, "downoadclicked", Toast.LENGTH_SHORT).show();
             String destinationPath = "/path/to/save/audio.mp3"; // Change the destination path as needed
 
+            downloadProgressBar.setVisibility(View.VISIBLE);
             AudioDownloader audioDownloader = new AudioDownloader(this);
             audioNumber = String.valueOf(chapterNumber);
             audioDownloader.downloadAudio(audioUrl,audioNumber,audioName, new AudioDownloader.DownloadListener() {
@@ -306,6 +309,11 @@ public class Play_Activity extends AppCompatActivity {
                 @Override
                 public void onDownloadFailed(String errorMessage) {
 
+                }
+
+                @Override
+                public void onProgressUpdate(int progress) {
+                    downloadProgressBar.setProgress(progress,true);
                 }
             });
 

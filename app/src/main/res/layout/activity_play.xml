@@ -15,6 +15,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ProgressBar
+        android:id="@+id/audioProgressDownload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="gone"
+        android:progressTint="@color/lightBlue"
+        android:progressBackgroundTint="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/playTollBar"/>
+
+
+
+
     <ProgressBar
         android:id="@+id/myProgressBar"
         android:layout_width="wrap_content"

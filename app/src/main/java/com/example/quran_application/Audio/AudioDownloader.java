@@ -72,8 +72,16 @@ public class AudioDownloader {
 //                        }
 //                    }
 //                }
+
+
+
+
                 if (body != null) {
                     try (InputStream inputStream = body.byteStream()) {
+
+                        // todo to show progress
+                        long totalFileSize = body.contentLength(); // Get total file size
+                        long downloadedFileSize = 0;
 
 
                         String fileName = chapterNumber + "_" + chapterName + ".mp3";
@@ -96,6 +104,18 @@ public class AudioDownloader {
                         int read;
                         while ((read = inputStream.read(buffer)) != -1) {
                             outputStream.write(buffer, 0, read);
+
+                            // todo show progress
+                            downloadedFileSize += read;
+
+                            // Calculate the download progress in percentage
+                            int progress = (int) ((downloadedFileSize * 100) / totalFileSize);
+
+                            // Notify progress
+                            if (listener != null) {
+                                listener.onProgressUpdate(progress);
+                            }
+
                         }
                         outputStream.flush();
                         outputStream.close();
@@ -125,5 +145,7 @@ public class AudioDownloader {
         void onDownloadCompleted(String filePath);
 
         void onDownloadFailed(String errorMessage);
+
+        void onProgressUpdate(int progress);
     }
 }
