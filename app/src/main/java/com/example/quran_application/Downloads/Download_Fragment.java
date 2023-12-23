@@ -85,8 +85,10 @@ public class Download_Fragment extends Fragment {
                     long fileSize = mp3File.length(); // Get file size in bytes
 
 
+                    String path = mp3File.getAbsolutePath();
+
                     // Create ChapterInfo object and add to the list
-                    ChapterInfo chapterInfo = new ChapterInfo(chapterNumber, arabicText,String.valueOf(fileSize));
+                    ChapterInfo chapterInfo = new ChapterInfo(chapterNumber, arabicText,fileSize,path);
                     chapterInfoList.add(chapterInfo);
 
                     Log.e("File","ChapterInfo "+chapterInfo.getChapterNumber());

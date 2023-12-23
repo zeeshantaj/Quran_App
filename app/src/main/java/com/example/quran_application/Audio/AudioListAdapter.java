@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quran_application.FileSizeFormater.FileSizeFormatter;
 import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.R;
 
@@ -52,7 +53,15 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
         Audio audio = audio_file.get(position);
         holder.chapterNumber.setText(String.valueOf(audio.getChapter_id()));
         holder.fileType.setText(audio.getFormat());
-        holder.fileSize.setText(String.valueOf(audio.getFile_size()));
+
+
+        double fileSizeInBytes = audio.getFile_size();
+        long size = (long) fileSizeInBytes;
+        String fileSizeText = FileSizeFormatter.getFileSizeString(size);
+        holder.fileSize.setText(fileSizeText);
+
+
+
         holder.recitName.setSelected(true);
 
         SharedViewModel sharedViewModel = new ViewModelProvider((ViewModelStoreOwner) holder.itemView.getContext()).get(SharedViewModel.class);
@@ -90,6 +99,7 @@ public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.View
                 intent.putExtra("audioChapter",audio.getChapter_id());
                 intent.putExtra("audioFormat",audio.getFormat());
                 intent.putExtra("audioSize",audio.getFile_size());
+                intent.putExtra("playBoolean",true);
                 intent.putExtra("audioSurahName",surahNames.get(position));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(),
                         holder.imageView,

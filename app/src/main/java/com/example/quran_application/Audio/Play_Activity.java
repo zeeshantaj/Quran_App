@@ -81,14 +81,11 @@ public class Play_Activity extends AppCompatActivity {
         handler = new Handler();
 
         Intent intent = getIntent();
-        audioUrl = intent.getStringExtra("audioUrl");
-        String audioFormat = intent.getStringExtra("audioFormat");
-        audioName = intent.getStringExtra("audioSurahName");
-        double audioSize = intent.getDoubleExtra("audioSize",0);
-        chapterNumber = intent.getIntExtra("audioChapter",0);
+
+        boolean isPlay = intent.getBooleanExtra("playBoolean",false);
+
 
         //chapterNum.setText(String.valueOf(chapterNumber));
-        nameArabic.setText(audioName);
 
 
         mediaPlayer = new MediaPlayer();
@@ -144,10 +141,36 @@ public class Play_Activity extends AppCompatActivity {
             }
         });
 
-        try {
+        String audioFormat = intent.getStringExtra("audioFormat");
+        audioName = intent.getStringExtra("audioSurahName");
+        double audioSize = intent.getDoubleExtra("audioSize",0);
+        chapterNumber = intent.getIntExtra("audioChapter",0);
 
-            mediaPlayer.setDataSource(audioUrl);
+        nameArabic.setText(audioName);
 
+        Log.e("MyApp ","isPlaying"+isPlaying);
+
+      // play online
+        if (isPlay){
+            audioUrl = intent.getStringExtra("audioUrl");
+            try {
+                mediaPlayer.setDataSource(audioUrl);
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        else {
+            // play offline
+            String path = intent.getStringExtra("path");
+            try {
+                mediaPlayer.setDataSource(path);
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -183,10 +206,8 @@ public class Play_Activity extends AppCompatActivity {
                 }
             });
             mediaPlayer.prepareAsync();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -301,10 +322,7 @@ public class Play_Activity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.audioDownloadBtn){
-            Toast.makeText(this, "downoadclicked", Toast.LENGTH_SHORT).show();
-            String destinationPath = "/path/to/save/audio.mp3"; // Change the destination path as needed
 
-           // downloadProgressBar.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.VISIBLE);
             AudioDownloader audioDownloader = new AudioDownloader(this);
             audioNumber = String.valueOf(chapterNumber);

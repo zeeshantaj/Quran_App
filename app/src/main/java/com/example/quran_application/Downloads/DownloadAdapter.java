@@ -1,5 +1,6 @@
 package com.example.quran_application.Downloads;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quran_application.Audio.Play_Activity;
+import com.example.quran_application.FileSizeFormater.FileSizeFormatter;
 import com.example.quran_application.R;
 
 import org.w3c.dom.Text;
@@ -34,7 +37,24 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
         holder.name.setText(chapterInfo.getArabicText().replace(".mp3",""));
         holder.number.setText(String.valueOf(chapterInfo.getChapterNumber()));
         holder.fileType.setText("mp3");
-        holder.fileSize.setText(chapterInfo.getFileSize());
+       // holder.fileSize.setText(chapterInfo.getFileSize());
+        long fileSizeInBytes = chapterInfo.getFileSize();
+        String fileSizeText = FileSizeFormatter.getFileSizeString(fileSizeInBytes); // Custom method to convert bytes to appropriate size
+        holder.fileSize.setText(fileSizeText);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Play_Activity.class);
+                intent.putExtra("playBoolean",false);
+                intent.putExtra("audioChapter",chapterInfo.getChapterNumber());
+                intent.putExtra("audioFormat",holder.fileType.getText());
+                intent.putExtra("audioSurahName",holder.name.getText());
+                intent.putExtra("path",chapterInfo.getFilePath());
+                v.getContext().startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -53,4 +73,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
 
         }
     }
+
+
 }
