@@ -5,7 +5,10 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.quran_application.Downloads.DownloadListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,7 +24,7 @@ import okhttp3.ResponseBody;
 
 public class AudioDownloader {
     private final Context context;
-
+    private int progress;
     public AudioDownloader(Context context) {
         this.context = context;
     }
@@ -75,7 +78,6 @@ public class AudioDownloader {
 
 
 
-
                 if (body != null) {
                     try (InputStream inputStream = body.byteStream()) {
 
@@ -109,7 +111,7 @@ public class AudioDownloader {
                             downloadedFileSize += read;
 
                             // Calculate the download progress in percentage
-                            int progress = (int) ((downloadedFileSize * 100) / totalFileSize);
+                            progress = (int) ((downloadedFileSize * 100) / totalFileSize);
 
                             // Notify progress
                             if (listener != null) {
@@ -125,7 +127,7 @@ public class AudioDownloader {
 
                             Handler handler = new Handler(Looper.getMainLooper());
                             handler.post(() -> {
-                                Toast.makeText(context, "Audio downloaded: " + destinationFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Audio downloaded: " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
                                 Log.e("MyApp", "destination: " + destinationFile.getAbsolutePath());
                             });
                         }
@@ -141,11 +143,11 @@ public class AudioDownloader {
         });
     }
 
-    public interface DownloadListener {
-        void onDownloadCompleted(String filePath);
-
-        void onDownloadFailed(String errorMessage);
-
-        void onProgressUpdate(int progress);
-    }
+//    public interface DownloadListener {
+//        void onDownloadCompleted(String filePath);
+//
+//        void onDownloadFailed(String errorMessage);
+//
+//        void onProgressUpdate(int progress);
+//    }
 }

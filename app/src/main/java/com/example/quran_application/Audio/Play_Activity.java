@@ -24,12 +24,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
+import com.example.quran_application.Downloads.DownloadListener;
 import com.example.quran_application.R;
 
 import java.io.IOException;
@@ -46,12 +48,17 @@ public class Play_Activity extends AppCompatActivity {
     private int total,chapterNumber;
     private String audioUrl,audioName,audioNumber;
     private ProgressBar downloadProgressBar;
+    private LinearLayout linearLayout;
+    private TextView progressText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
         downloadProgressBar = findViewById(R.id.audioProgressDownload);
+        linearLayout = findViewById(R.id.progressLinearLayout);
+        progressText = findViewById(R.id.progressTxt);
+
 
         Fade fade = new Fade();
         View decor = getWindow().getDecorView();
@@ -297,13 +304,15 @@ public class Play_Activity extends AppCompatActivity {
             Toast.makeText(this, "downoadclicked", Toast.LENGTH_SHORT).show();
             String destinationPath = "/path/to/save/audio.mp3"; // Change the destination path as needed
 
-            downloadProgressBar.setVisibility(View.VISIBLE);
+           // downloadProgressBar.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
             AudioDownloader audioDownloader = new AudioDownloader(this);
             audioNumber = String.valueOf(chapterNumber);
-            audioDownloader.downloadAudio(audioUrl,audioNumber,audioName, new AudioDownloader.DownloadListener() {
+            audioDownloader.downloadAudio(audioUrl,audioNumber,audioName, new DownloadListener() {
                 @Override
                 public void onDownloadCompleted(String filePath) {
                     //Toast.makeText(Play_Activity.this, "Downloaded Successfully"+filePath, Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
@@ -313,7 +322,9 @@ public class Play_Activity extends AppCompatActivity {
 
                 @Override
                 public void onProgressUpdate(int progress) {
+
                     downloadProgressBar.setProgress(progress,true);
+                    runOnUiThread(() -> progressText.setText(progress + "%"));
                 }
             });
 
