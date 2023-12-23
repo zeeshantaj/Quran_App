@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.quran_application.Audio.Audio;
 import com.example.quran_application.Chapter_response.Chapter;
+import com.example.quran_application.Click_Animation.ClickedItemAnimator;
 import com.example.quran_application.Database.RoomDB;
 import com.example.quran_application.R;
 import com.example.quran_application.verses_response.Verse;
@@ -105,6 +106,8 @@ public class Download_Fragment extends Fragment {
         DownloadAdapter adapter = new DownloadAdapter(chapterInfoList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        ClickedItemAnimator clickedItemAnimator = new ClickedItemAnimator();
+        recyclerView.setItemAnimator(clickedItemAnimator);
         return view;
     }
 

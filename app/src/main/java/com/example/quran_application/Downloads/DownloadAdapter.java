@@ -2,6 +2,7 @@ package com.example.quran_application.Downloads;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -42,6 +43,22 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
         String fileSizeText = FileSizeFormatter.getFileSizeString(fileSizeInBytes); // Custom method to convert bytes to appropriate size
         holder.fileSize.setText(fileSizeText);
 
+        holder.itemView.setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    // Scale down the clicked item
+                    view.setScaleX(0.9f);
+                    view.setScaleY(0.9f);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    // Restore the original size when touch is released or canceled
+                    view.setScaleX(1.0f);
+                    view.setScaleY(1.0f);
+                    break;
+            }
+            return false;
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

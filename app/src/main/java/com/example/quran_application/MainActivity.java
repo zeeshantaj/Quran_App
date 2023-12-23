@@ -38,11 +38,14 @@ import com.example.quran_application.Adaper.ChapterAdapter;
 import com.example.quran_application.Downloads.Download_Fragment;
 import com.example.quran_application.Fragment.Progress_Download_Fragment;
 import com.example.quran_application.Model.SharedViewModel;
+import com.example.quran_application.NetworkUtils.InternetAccessCallback;
+import com.example.quran_application.NetworkUtils.NetworkUtils;
 import com.example.quran_application.Translation.TranslationList;
 import com.example.quran_application.Translation.Translation_Info;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         audio = findViewById(R.id.audioBtn);
         surahBtn = findViewById(R.id.surahBtn);
         downloadBtn = findViewById(R.id.downloadBtn);
+
+
 
 
         fragmentManager = getSupportFragmentManager();
@@ -108,9 +113,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        setFragment(currentFragment);
+
       //  setColor();
         setToolbar();
+        CheckInterNetAccess();
     }
 
     private void setColor() {
@@ -191,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
         currentFragment = fragment;
         setColor();
+        setToolbar();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -273,7 +280,63 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
 
+            if (currentFragment instanceof Surah_Fragment) {
+                actionBar.setTitle("Surah");
+            }
+            if (currentFragment instanceof Para_Fragment) {
+                actionBar.setTitle("Juz");
+            }
+            if (currentFragment instanceof AudioFragment) {
+                actionBar.setTitle("Audio");
+            }
+            if (currentFragment instanceof Download_Fragment) {
+                actionBar.setTitle("Download");
+            }
 
+        }
+    }
+
+    public void CheckInterNetAccess(){
+        if (NetworkUtils.isNetworkAvailable(this)){
+            NetworkUtils.hasInternetAccess(new InternetAccessCallback() {
+                @Override
+                public void onInternetAccessResult(boolean hasInternetAccess) {
+                    if (hasInternetAccess){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setFragment(currentFragment);
+                            }
+                        });
+                    }
+                    else {
+                        setFragment(new Download_Fragment());
+                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "You have no internet connection", Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setActionTextColor(getResources().getColor(R.color.lightBlue));
+                        snackbar.setAction("Check Again", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                CheckInterNetAccess();
+
+                            }
+                        });
+                        snackbar.show();
+                    }
+                }
+            });
+        }
+        else {
+            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Make sure you are connected to the internet", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setActionTextColor(getResources().getColor(R.color.lightBlue));
+            setFragment(new Download_Fragment());
+            snackbar.setAction("DISMISS", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
         }
     }
 
