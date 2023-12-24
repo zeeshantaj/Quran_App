@@ -1,4 +1,7 @@
 package com.example.quran_application.Animation;
 
-public class DefaultAnimate {
+import androidx.recyclerview.widget.DefaultItemAnimator;
+
+public class DefaultAnimate extends DefaultItemAnimator {
+
 }
