@@ -45,4 +45,6 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.5.2'
 
     implementation 'com.github.MackHartley:RoundedProgressBar:3.0.0'
+
+    implementation 'com.wajahatkarim:easyflipviewpager:2.0.1'
 }
