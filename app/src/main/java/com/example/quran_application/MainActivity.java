@@ -40,6 +40,7 @@ import com.example.quran_application.Fragment.Progress_Download_Fragment;
 import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.NetworkUtils.InternetAccessCallback;
 import com.example.quran_application.NetworkUtils.NetworkUtils;
+import com.example.quran_application.PagesWork.Page_Verse_Fragment;
 import com.example.quran_application.Translation.TranslationList;
 import com.example.quran_application.Translation.Translation_Info;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFragment(new Download_Fragment());
+                setFragment(new Page_Verse_Fragment());
 
             }
         });
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     else if (currentFragment instanceof AudioFragment){
                         performSearchForAudio(convertedQuery);
                     }
-                    else if (currentFragment instanceof Download_Fragment) {
+                    else if (currentFragment instanceof Page_Verse_Fragment) {
 
                     }
                 }
