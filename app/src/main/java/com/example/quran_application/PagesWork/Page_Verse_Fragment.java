@@ -34,7 +34,7 @@ public class Page_Verse_Fragment extends Fragment {
 
     private List<Verse> verseList;
     private ViewPager2 myViewPager2;
-    private int verseKey;
+    private List<String> textArray;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,32 +58,42 @@ public class Page_Verse_Fragment extends Fragment {
                     Verses_Response versesResponse = response.body();
                     verseList = versesResponse.getVerses();
 
+                    //testing work
+                    StringBuilder concatenatedString = new StringBuilder();
+
+                    // Loop through the verseList and concatenate strings
+                    for (Verse verse : verseList) {
+                        String vrStr = verse.getText_uthmani();
+                        concatenatedString.append(vrStr).append(" "); // You can modify the concatenation logic as needed
+                    }
+
+                    // Now you have the concatenated string
+                    String finalString = concatenatedString.toString();
+
+                    // Use the finalString according to your needs
+                    System.out.println(finalString);
+ // testing work
+
+
+                    StringBuilder pageText = new StringBuilder();
                     List<String> pages = new ArrayList<>();
-                    StringBuilder currentPage = new StringBuilder();
+                    int lineCount = 0;
 
                     for (Verse verse : verseList) {
                         String verseText = verse.getText_uthmani();
-                        verseKey = verse.getId();
+                        pageText.append(verseText).append("\n");
+                        lineCount++;
 
-                        // Split the verse text into lines
-                        String[] lines = verseText.split("\n");
-
-                        for (String line : lines) {
-                            // Append line by line to the current page
-                            currentPage.append(line).append("\n");
-
-                            // If the page reaches the maximum allowed lines, add it to the pages list
-                            if (countLines(currentPage.toString()) > 13) {
-                                pages.add(currentPage.toString());
-                                currentPage = new StringBuilder();
-                            }
+                        if (lineCount >= 13) {
+                            pages.add(pageText.toString());
+                            pageText = new StringBuilder();
+                            lineCount = 0;
                         }
                     }
 
-                    if (currentPage.length() > 0) {
-                        pages.add(currentPage.toString());
+                    if (pageText.length() > 0) {
+                        pages.add(pageText.toString());
                     }
-
                     // Create the adapter and set it to the ViewPager2
                     VersePagerAdapter adapter = new VersePagerAdapter(pages);
                     myViewPager2.setAdapter(adapter);
