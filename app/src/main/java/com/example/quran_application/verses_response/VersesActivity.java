@@ -25,12 +25,14 @@ import com.example.quran_application.Downloads.SavedVerseAdapter;
 import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.R;
 import com.example.quran_application.Adaper.VersesCountAdapter;
+import com.example.quran_application.Translation.MySharedPreference;
 import com.example.quran_application.Translation.Translation;
 import com.example.quran_application.Translation.Translation_Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -134,12 +136,38 @@ public class VersesActivity extends AppCompatActivity {
             });
 
 
-            Call<Translation_Response> call1 = service.getTranslationForChapter(chapterNumber);
 
-            call1.enqueue(new Callback<Translation_Response>() {
+
+
+            // mySharedPreferences.saveValue("translation_key", 158);
+            // Retrieving a value
+//            Call<Translation_Response> call1 = service.getTranslationForChapter(chapterNumber);
+//            call1.enqueue(new Callback<Translation_Response>() {
+//                @Override
+//                public void onResponse(Call<Translation_Response> call, Response<Translation_Response> response) {
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Translation_Response> call, Throwable t) {
+//
+//
+//                }
+//            });
+
+
+
+            MySharedPreference mySharedPreferences = new MySharedPreference(this);
+            int id = mySharedPreferences.getValue("translation_key", 0);
+            Log.d("MainActivity", "Value retrieved in surah : " + id);
+            Call<Translation_Response> call2 = service.getTranslationForChapter1(id,chapterNumber);
+            call2.enqueue(new Callback<Translation_Response>() {
                 @Override
                 public void onResponse(Call<Translation_Response> call, Response<Translation_Response> response) {
                     if (response.isSuccessful()){
+
+                        String url = call.request().url().toString();
+                        Log.e("MyApp","url ->"+url);
                         Translation_Response translationResponse = response.body();
                         translationList = translationResponse.getTranslation();
 
@@ -151,16 +179,16 @@ public class VersesActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Translation_Response> call, Throwable t) {
+                    String url = call.request().url().toString();
+                    Log.e("MyApp","url ->"+url);
                     Toast.makeText(VersesActivity.this, "Error "+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
                 }
             });
             versesCountAdapter = new VersesCountAdapter(combineVersesList);
             recyclerVerseCount.setAdapter(versesCountAdapter);
             versesCountAdapter.notifyDataSetChanged();
+
         }
-
-
         setToolbar();
     }
 

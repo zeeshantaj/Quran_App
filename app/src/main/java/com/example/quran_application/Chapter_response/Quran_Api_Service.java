@@ -9,6 +9,7 @@ import com.example.quran_application.verses_response.Verses_Response;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Quran_Api_Service {
@@ -27,7 +28,9 @@ public interface Quran_Api_Service {
     Call<Verses_Response> getVersesBtJuz(@Query("juz_number") int juz_Number);
 
     //https://api.quran.com/api/v4/quran/verses/uthmani?juz_number=1
-    @GET("api/v4/quran/translations/158")
+    @GET("api/v4/quran/translations/{translationId}")
+        Call<Translation_Response> getTranslationForChapter1(@Path("translationId") int translationId, @Query("chapter_number") int chapterNumber);
+ @GET("api/v4/quran/translations/158")
         Call<Translation_Response> getTranslationForChapter(@Query("chapter_number") int chapterNumber);
 
     @GET("api/v4/resources/translations")
