@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -41,6 +42,7 @@ import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.NetworkUtils.InternetAccessCallback;
 import com.example.quran_application.NetworkUtils.NetworkUtils;
 import com.example.quran_application.PagesWork.Page_Verse_Fragment;
+import com.example.quran_application.Translation.MySharedPreference;
 import com.example.quran_application.Translation.TranslationList;
 import com.example.quran_application.Translation.Translation_Info;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
+
+
         paraBtn = findViewById(R.id.paraBtn);
         audio = findViewById(R.id.audioBtn);
         surahBtn = findViewById(R.id.surahBtn);
@@ -83,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         currentFragment = fragmentManager.findFragmentById(R.id.parentFrameLayout);
         currentFragment = new Surah_Fragment();
-
+        setFragment(currentFragment);
         paraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFragment(new Page_Verse_Fragment());
+                setFragment(new Download_Fragment());
 
             }
         });
@@ -115,9 +119,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
       //  setColor();
         setToolbar();
-        CheckInterNetAccess();
+       // CheckInterNetAccess();
     }
 
     private void setColor() {
@@ -225,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
                     else if (currentFragment instanceof AudioFragment){
                         performSearchForAudio(convertedQuery);
                     }
-                    else if (currentFragment instanceof Page_Verse_Fragment) {
+                    else if (currentFragment instanceof Download_Fragment) {
 
                     }
                 }
@@ -297,48 +302,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void CheckInterNetAccess(){
-        if (NetworkUtils.isNetworkAvailable(this)){
-            NetworkUtils.hasInternetAccess(new InternetAccessCallback() {
-                @Override
-                public void onInternetAccessResult(boolean hasInternetAccess) {
-                    if (hasInternetAccess){
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setFragment(currentFragment);
-                            }
-                        });
-                    }
-                    else {
-                        setFragment(new Download_Fragment());
-                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "You have no internet connection", Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setActionTextColor(getResources().getColor(R.color.lightBlue));
-                        snackbar.setAction("Check Again", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                CheckInterNetAccess();
-
-                            }
-                        });
-                        snackbar.show();
-                    }
-                }
-            });
-        }
-        else {
-            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Make sure you are connected to the internet", Snackbar.LENGTH_INDEFINITE);
-            snackbar.setActionTextColor(getResources().getColor(R.color.lightBlue));
-            setFragment(new Download_Fragment());
-            snackbar.setAction("DISMISS", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    snackbar.dismiss();
-                }
-            });
-            snackbar.show();
-        }
-    }
+//    public void CheckInterNetAccess(){
+//        if (NetworkUtils.isNetworkAvailable(this)){
+//            NetworkUtils.hasInternetAccess(new InternetAccessCallback() {
+//                @Override
+//                public void onInternetAccessResult(boolean hasInternetAccess) {
+//                    if (hasInternetAccess){
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                setFragment(new Surah_Fragment());
+//                            }
+//                        });
+//                    }
+//                    else {
+//                        setFragment(new Download_Fragment());
+//                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "You have no internet connection", Snackbar.LENGTH_INDEFINITE);
+//                        snackbar.setActionTextColor(getResources().getColor(R.color.lightBlue));
+//                        snackbar.setAction("Check Again", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                CheckInterNetAccess();
+//                                snackbar.dismiss();
+//
+//                            }
+//                        });
+//                        snackbar.show();
+//                    }
+//                }
+//            });
+//        }
+//        else {
+//            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Make sure you are connected to the internet", Snackbar.LENGTH_INDEFINITE);
+//            snackbar.setActionTextColor(getResources().getColor(R.color.lightBlue));
+//            setFragment(new Download_Fragment());
+//            snackbar.setAction("DISMISS", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    snackbar.dismiss();
+//                }
+//            });
+//            snackbar.show();
+//        }
+//    }
 
 }

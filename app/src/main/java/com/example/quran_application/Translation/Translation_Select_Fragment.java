@@ -47,7 +47,7 @@ public class Translation_Select_Fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         translationLists = new ArrayList<>();
-       ;
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.quran.com/")

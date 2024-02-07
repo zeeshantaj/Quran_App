@@ -1,5 +1,6 @@
 package com.example.quran_application.Model;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 

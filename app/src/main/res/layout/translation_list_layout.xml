@@ -28,17 +28,18 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Translation Language:"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/languageNameTxt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="urdu"
-                android:textSize="18sp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/translationCheckBox"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -48,17 +49,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Author Name:"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <TextView
                 android:id="@+id/authorNameTxt"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="10dp"
-                android:text="fedal "
-                android:textSize="18sp"
+                android:text="fedal"
+                android:textSize="16sp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 app:layout_constrainedWidth="true"
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Translation Type:"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -84,12 +85,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="saheeh internation"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView4"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="@+id/textView4" />
 
 
+            <CheckBox
+                android:id="@+id/translationCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

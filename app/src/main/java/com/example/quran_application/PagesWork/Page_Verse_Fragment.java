@@ -64,7 +64,9 @@ public class Page_Verse_Fragment extends Fragment {
                     // Loop through the verseList and concatenate strings
                     for (Verse verse : verseList) {
                         String vrStr = verse.getText_uthmani();
+                        Log.e("MyApp","before verse text -> "+vrStr);
                         concatenatedString.append(vrStr).append(" "); // You can modify the concatenation logic as needed
+                        Log.e("MyApp","after verse text -> "+vrStr);
                     }
 
                     // Now you have the concatenated string

@@ -29,6 +29,7 @@ import com.example.quran_application.Chapter_response.ChapterResponse;
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
 import com.example.quran_application.Click_Animation.ClickedItemAnimator;
 import com.example.quran_application.Model.SharedViewModel;
+import com.example.quran_application.Translation.MySharedPreference;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
 
 import java.util.ArrayList;
@@ -56,6 +57,14 @@ public class Surah_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_surah_, container, false);
+
+
+        MySharedPreference mySharedPreferences = new MySharedPreference(getActivity());
+
+       // mySharedPreferences.saveValue("translation_key", 158);
+        // Retrieving a value
+        int value = mySharedPreferences.getValue("translation_key", 158);
+        Log.d("MainActivity", "Value retrieved: " + value);
 
         recyclerView = view.findViewById(R.id.chapterRecycler);
 

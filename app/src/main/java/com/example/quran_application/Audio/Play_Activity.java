@@ -165,6 +165,7 @@ public class Play_Activity extends AppCompatActivity {
             String path = intent.getStringExtra("path");
             try {
                 mediaPlayer.setDataSource(path);
+
             }
             catch (IOException e){
                 e.printStackTrace();
@@ -393,35 +394,5 @@ public class Play_Activity extends AppCompatActivity {
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(animator);
         animatorSet.start();
-
-
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "rotation", 0f, 360f);
-//        animator.setDuration(1000);
-//        animator.setRepeatCount(ObjectAnimator.INFINITE); // Set to repeat infinitely
-//        animator.setInterpolator(new LinearInterpolator()); // LinearInterpolator for smooth rotation
-//
-//        animator.addListener(new AnimatorListenerAdapter() {
-//            @Override
-//            public void onAnimationCancel(Animator animation) {
-//                super.onAnimationCancel(animation);
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//                super.onAnimationEnd(animation);
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animation) {
-//                super.onAnimationRepeat(animation);
-//            }
-//
-//            @Override
-//            public void onAnimationStart(Animator animation) {
-//                super.onAnimationStart(animation);
-//            }
-//        });
-//
-//        animator.start();
     }
 }

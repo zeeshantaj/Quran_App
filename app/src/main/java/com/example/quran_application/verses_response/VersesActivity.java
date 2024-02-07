@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.example.quran_application.Chapter_response.Quran_Api_Service;
 import com.example.quran_application.CombineVerses;
 import com.example.quran_application.Database.RoomDB;
 import com.example.quran_application.Downloads.SavedVerseAdapter;
+import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.R;
 import com.example.quran_application.Adaper.VersesCountAdapter;
 import com.example.quran_application.Translation.Translation;
@@ -130,7 +133,9 @@ public class VersesActivity extends AppCompatActivity {
                 }
             });
 
+
             Call<Translation_Response> call1 = service.getTranslationForChapter(chapterNumber);
+
             call1.enqueue(new Callback<Translation_Response>() {
                 @Override
                 public void onResponse(Call<Translation_Response> call, Response<Translation_Response> response) {
