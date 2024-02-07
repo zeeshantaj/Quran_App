@@ -50,9 +50,12 @@ public class TranslationListAdapter extends RecyclerView.Adapter<TranslationList
             int id = translation.getId();
             Toast.makeText(holder.itemView.getContext(), "Clicked "+id, Toast.LENGTH_SHORT).show();
 
-            holder.checkBox.setChecked(value == translation.getId());
             // Saving a value
             // Overriding a value
+            if (holder.checkBox.isChecked()){
+                holder.checkBox.setChecked(false);
+            }
+            holder.checkBox.setChecked(true);
             mySharedPreferences.overrideValue("translation_key",id);
         });
 
