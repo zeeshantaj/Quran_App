@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,24 +40,28 @@ public class TranslationListAdapter extends RecyclerView.Adapter<TranslationList
         holder.authorName.setText(translation.getAuthor_name());
         holder.type.setText(translation.getName());
 
+        MySharedPreference mySharedPreferences = new MySharedPreference(holder.itemView.getContext());
+        int value = mySharedPreferences.getValue("translation_key", 158);
+        Log.d("MainActivity", "Value retrieved: " + value);
+
+
         holder.itemView.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
-
             int id = translation.getId();
             Toast.makeText(holder.itemView.getContext(), "Clicked "+id, Toast.LENGTH_SHORT).show();
 
-            MySharedPreference mySharedPreferences = new MySharedPreference(holder.itemView.getContext());
+            holder.checkBox.setChecked(value == translation.getId());
             // Saving a value
             // Overriding a value
             mySharedPreferences.overrideValue("translation_key",id);
-
-
-//            if (pos == translation.getId()){
-//                Toast.makeText(holder.itemView.getContext(), "Clicked "+pos + translation.getId(), Toast.LENGTH_SHORT).show();
-//            }
         });
 
-
+        if (value == translation.getId()){
+            holder.checkBox.setChecked(true);
+        }
+        else {
+            holder.checkBox.setChecked(false);
+        }
     }
 
     @Override
@@ -67,12 +72,14 @@ public class TranslationListAdapter extends RecyclerView.Adapter<TranslationList
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView languageName,authorName,type;
+        private CheckBox checkBox;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             languageName = itemView.findViewById(R.id.languageNameTxt);
             authorName = itemView.findViewById(R.id.authorNameTxt);
             type = itemView.findViewById(R.id.translationType);
+            checkBox = itemView.findViewById(R.id.translationCheckBox);
 
         }
     }
