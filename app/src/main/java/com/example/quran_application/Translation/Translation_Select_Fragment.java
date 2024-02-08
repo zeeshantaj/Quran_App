@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
 import com.example.quran_application.MainActivity;
 import com.example.quran_application.R;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Translation_Select_Fragment extends Fragment {
+public class Translation_Select_Fragment extends BottomSheetDialogFragment {
     public Translation_Select_Fragment() {
         // Required empty public constructor
     }

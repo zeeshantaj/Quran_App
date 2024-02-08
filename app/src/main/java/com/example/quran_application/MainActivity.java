@@ -258,11 +258,18 @@ public class MainActivity extends AppCompatActivity {
 
 
             Translation_Select_Fragment fragment = new Translation_Select_Fragment();
+            fragment.show(getSupportFragmentManager(), fragment.getTag());
 
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.parentFrameLayout, fragment);  //here, android.R.id.content is a view on which your fragment's view is replaced
-            transaction.addToBackStack(null);
-            transaction.commit();
+
+
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.replace(R.id.parentFrameLayout, fragment);  //here, android.R.id.content is a view on which your fragment's view is replaced
+//            transaction.addToBackStack(null);
+//            transaction.commit();
+
+         //   TranslationBottomSheetFragment bottomSheetFragment = new TranslationBottomSheetFragment();
+
+
         }
         if (id == R.id.taafsirList){
             Toast.makeText(this, "tafsir", Toast.LENGTH_SHORT).show();
