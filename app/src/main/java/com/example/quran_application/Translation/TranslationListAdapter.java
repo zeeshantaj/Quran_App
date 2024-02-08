@@ -41,21 +41,23 @@ public class TranslationListAdapter extends RecyclerView.Adapter<TranslationList
         holder.type.setText(translation.getName());
 
         MySharedPreference mySharedPreferences = new MySharedPreference(holder.itemView.getContext());
-        int value = mySharedPreferences.getValue("translation_key", 158);
-        Log.d("MainActivity", "Value retrieved: " + value);
+        int translationID = mySharedPreferences.getValue("translation_key", 158);
+        Log.d("MainActivity", "Value retrieved: " + translationID);
 
 
         holder.itemView.setOnClickListener(v -> {
 
             int id = translation.getId();
-            if (id == value){
-                holder.checkBox.setChecked(true);
-            }
-            else {
-                holder.checkBox.setChecked(false);
-            }
             mySharedPreferences.overrideValue("translation_key",id);
+            notifyDataSetChanged();
         });
+
+        if (translation.getId() == translationID){
+            holder.checkBox.setChecked(true);
+
+        }else {
+            holder.checkBox.setChecked(false);
+        }
 
 //        holder.checkBox.setChecked(value == translation.getId());
     }
