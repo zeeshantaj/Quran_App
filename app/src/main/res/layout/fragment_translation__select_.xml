@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
+    android:id="@+id/bottomSheetLayout"
     android:gravity="bottom"
     android:background="@drawable/round_corner_bg"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="600dp"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     tools:context=".Translation.Translation_Select_Fragment">
 
@@ -24,6 +24,7 @@
             android:orientation="horizontal"
             >
             <ImageView
+                android:id="@+id/dismissButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/cross_png"/>
@@ -44,7 +45,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/translation_select_recycler"
             android:layout_width="match_parent"
-            android:layout_height="300dp"/>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

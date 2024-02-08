@@ -1,7 +1,12 @@
 package com.example.quran_application.Translation;
 
+import android.app.Dialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,11 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.quran_application.Chapter_response.Quran_Api_Service;
 import com.example.quran_application.MainActivity;
 import com.example.quran_application.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
@@ -37,6 +45,16 @@ public class Translation_Select_Fragment extends BottomSheetDialogFragment {
     private TranslationListAdapter adapter;
     private List<TranslationList> translationLists;
 
+    private BottomSheetBehavior<View> bottomSheetBehavior;
+    BottomSheetDialog dialog;
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        return dialog;
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +101,25 @@ public class Translation_Select_Fragment extends BottomSheetDialogFragment {
                 Toast.makeText(getActivity(), "Failed "+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        CoordinatorLayout coordinatorLayout = dialog.findViewById(R.id.bottomSheetLayout);
+        assert coordinatorLayout != null;
+        coordinatorLayout.setMinimumHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
+
+        ImageView dissmissBtn = dialog.findViewById(R.id.dismissButton);
+        if (dissmissBtn != null) {
+            dissmissBtn.setOnClickListener(v -> {
+                dialog.dismiss();
+            });
+        }
+
     }
 }
