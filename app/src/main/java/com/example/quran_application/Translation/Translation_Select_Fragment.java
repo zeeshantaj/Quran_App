@@ -109,7 +109,7 @@ public class Translation_Select_Fragment extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
         CoordinatorLayout coordinatorLayout = dialog.findViewById(R.id.bottomSheetLayout);
         assert coordinatorLayout != null;
         coordinatorLayout.setMinimumHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
