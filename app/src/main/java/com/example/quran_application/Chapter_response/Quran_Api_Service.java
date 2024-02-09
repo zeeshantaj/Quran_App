@@ -3,6 +3,7 @@ package com.example.quran_application.Chapter_response;
 import com.example.quran_application.Audio.AudioResponse;
 import com.example.quran_application.Juzs;
 import com.example.quran_application.Tafseer.Tafsirs;
+import com.example.quran_application.Tafseer.Tasfirs_Info;
 import com.example.quran_application.Translation.Translation;
 import com.example.quran_application.Translation.Translation_Info;
 import com.example.quran_application.Translation.Translation_Response;
@@ -19,7 +20,7 @@ public interface Quran_Api_Service {
     @GET("api/v4/juzs")
     Call<Juzs> getJuzs();
     @GET("api/v4/resources/tafsirs")
-    Call<Tafsirs> getTafsirs();
+    Call<Tasfirs_Info> getTafsirs();
 
 
     //https://api.quran.com/api/v4/verses/by_juz/30

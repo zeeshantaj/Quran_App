@@ -13,52 +13,23 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.quran_application.Audio.AudioFragment;
-import com.example.quran_application.Chapter_response.Chapter;
-import com.example.quran_application.Chapter_response.ChapterResponse;
-import com.example.quran_application.Chapter_response.Quran_Api_Service;
-import com.example.quran_application.Adaper.ChapterAdapter;
 import com.example.quran_application.Downloads.Download_Fragment;
 import com.example.quran_application.Fragment.Progress_Download_Fragment;
 import com.example.quran_application.Model.SharedViewModel;
-import com.example.quran_application.NetworkUtils.InternetAccessCallback;
-import com.example.quran_application.NetworkUtils.NetworkUtils;
-import com.example.quran_application.PagesWork.Page_Verse_Fragment;
-import com.example.quran_application.Tafseer.Tafseer_Fragment;
-import com.example.quran_application.Translation.MySharedPreference;
-import com.example.quran_application.Translation.TranslationList;
-import com.example.quran_application.Translation.Translation_Info;
+import com.example.quran_application.Tafseer.Tafsir_Fragment;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -94,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         surahBtn.setOnClickListener(v -> setFragment(new Surah_Fragment()));
         downloadBtn.setOnClickListener(v -> setFragment(new Download_Fragment()));
         tafseerBtn.setOnClickListener(v -> {
-            setFragment(new Tafseer_Fragment());
+            setFragment(new Tafsir_Fragment());
         });
 
         audio.setOnClickListener(v -> setFragment(new AudioFragment()));
@@ -254,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if (id == R.id.taafsirList){
+            Tafsir_Fragment fragment = new Tafsir_Fragment();
+            fragment.show(getSupportFragmentManager(), fragment.getTag());
             Toast.makeText(this, "tafsir", Toast.LENGTH_SHORT).show();
         }
 

@@ -1,9 +1,10 @@
 package com.example.quran_application.Tafseer;
 
+import java.util.List;
+
 public class Tafsirs {
     private int id;
     private String name,author_name,slug,language_name;
-
 
     public int getId() {
         return id;
@@ -45,11 +46,4 @@ public class Tafsirs {
         this.language_name = language_name;
     }
 
-    public Tafsirs(int id, String name, String author_name, String slug, String language_name) {
-        this.id = id;
-        this.name = name;
-        this.author_name = author_name;
-        this.slug = slug;
-        this.language_name = language_name;
-    }
 }
