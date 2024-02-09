@@ -42,6 +42,7 @@ import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.NetworkUtils.InternetAccessCallback;
 import com.example.quran_application.NetworkUtils.NetworkUtils;
 import com.example.quran_application.PagesWork.Page_Verse_Fragment;
+import com.example.quran_application.Tafseer.Tafseer_Fragment;
 import com.example.quran_application.Translation.MySharedPreference;
 import com.example.quran_application.Translation.TranslationList;
 import com.example.quran_application.Translation.Translation_Info;
@@ -62,7 +63,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
 
-    private MaterialButton paraBtn,surahBtn,downloadBtn,audio;
+    private MaterialButton paraBtn,surahBtn,downloadBtn,audio,tafseerBtn;
 
     private FragmentManager fragmentManager;
     private Fragment currentFragment;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         paraBtn = findViewById(R.id.paraBtn);
         audio = findViewById(R.id.audioBtn);
         surahBtn = findViewById(R.id.surahBtn);
+        tafseerBtn = findViewById(R.id.tafseerBtn);
         downloadBtn = findViewById(R.id.downloadBtn);
 
 
@@ -88,34 +90,14 @@ public class MainActivity extends AppCompatActivity {
         currentFragment = fragmentManager.findFragmentById(R.id.parentFrameLayout);
         currentFragment = new Surah_Fragment();
         setFragment(currentFragment);
-        paraBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFragment(new Para_Fragment());
-            }
-        });
-        surahBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFragment(new Surah_Fragment());
-
-            }
-        });
-        downloadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFragment(new Download_Fragment());
-
-            }
+        paraBtn.setOnClickListener(v -> setFragment(new Para_Fragment()));
+        surahBtn.setOnClickListener(v -> setFragment(new Surah_Fragment()));
+        downloadBtn.setOnClickListener(v -> setFragment(new Download_Fragment()));
+        tafseerBtn.setOnClickListener(v -> {
+            setFragment(new Tafseer_Fragment());
         });
 
-        audio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFragment(new AudioFragment());
-
-            }
-        });
+        audio.setOnClickListener(v -> setFragment(new AudioFragment()));
 
 
 

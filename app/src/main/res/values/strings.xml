@@ -42,6 +42,7 @@
     <string name="file_type">File Type:</string>
     <string name="recitation_by">Recitation:</string>
     <string name="abdurrahmaan_as_sudais">abdurrahmaan as sudais</string>
+    <string name="tafseer">Tafseer</string>
 
     <string-array name="juzNameArray">
         <item>@string/a1</item>
