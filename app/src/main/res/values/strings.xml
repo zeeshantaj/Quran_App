@@ -2,6 +2,7 @@
     <string name="app_name">Quran_Application</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Api_BaseUrl"></string>
     <string name="_8942">⋮</string>
     <string name="a1">الم</string>
     <string name="a2">سَيَقُولُ</string>
