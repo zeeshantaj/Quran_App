@@ -108,6 +108,7 @@ public class VersesActivity extends AppCompatActivity {
                         recyclerView.setAdapter(versesAdapter);
                         for (Verse verse : verseList){
 
+                            Log.e("MyApp","Surah "+verse.getText_uthmani());
 
                             CombineVerses combineVerses = new CombineVerses();
                             if (isChapter) {
