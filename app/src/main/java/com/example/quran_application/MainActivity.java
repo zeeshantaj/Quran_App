@@ -110,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             animateButtonColorChange(audio, defaultColor, defaultTextColor, animationDuration);
         }
+        if (currentFragment instanceof Tafsir_Fragment) {
+            animateButtonColorChange(audio, color, textColor, animationDuration);
+        } else {
+            animateButtonColorChange(audio, defaultColor, defaultTextColor, animationDuration);
+        }
 
 //        if (currentFragment instanceof Surah_Fragment){
 //            surahBtn.setBackgroundColor(color);
@@ -259,6 +264,9 @@ public class MainActivity extends AppCompatActivity {
             }
             if (currentFragment instanceof Download_Fragment) {
                 actionBar.setTitle("Download");
+            }
+            if (currentFragment instanceof Tafsir_Fragment) {
+                actionBar.setTitle("Tafsir");
             }
 
         }
