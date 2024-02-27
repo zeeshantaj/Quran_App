@@ -77,6 +77,8 @@ public class Page_Verse_Fragment extends Fragment {
  // testing work
 
 
+
+
                     StringBuilder pageText = new StringBuilder();
                     List<String> pages = new ArrayList<>();
                     int lineCount = 0;
@@ -86,7 +88,7 @@ public class Page_Verse_Fragment extends Fragment {
                         pageText.append(verseText).append("\n");
                         lineCount++;
 
-                        if (lineCount >= 13) {
+                        if (lineCount >= 16) {
                             pages.add(pageText.toString());
                             pageText = new StringBuilder();
                             lineCount = 0;
@@ -97,6 +99,28 @@ public class Page_Verse_Fragment extends Fragment {
                         pages.add(pageText.toString());
                     }
                     // Create the adapter and set it to the ViewPager2
+
+//                    String[] lines = finalString.split("\n");
+//                    StringBuilder pageText = new StringBuilder();
+//                    List<String> pages = new ArrayList<>();
+//                    int lineCount = 0;
+//
+//                    for (String line : lines) {
+//                        pageText.append(line).append("\n");
+//                        lineCount++;
+//
+//                        if (lineCount >= 13) {
+//                            pages.add(pageText.toString());
+//                            pageText = new StringBuilder();
+//                            lineCount = 0;
+//                        }
+//                    }
+//
+//                    if (pageText.length() > 0) {
+//                        pages.add(pageText.toString());
+//                    }
+                    Log.e("MyApp","page size"+pages.size());
+
                     VersePagerAdapter adapter = new VersePagerAdapter(pages);
                     myViewPager2.setAdapter(adapter);
 

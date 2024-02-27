@@ -27,6 +27,7 @@ import com.example.quran_application.Audio.AudioFragment;
 import com.example.quran_application.Downloads.Download_Fragment;
 import com.example.quran_application.Fragment.Progress_Download_Fragment;
 import com.example.quran_application.Model.SharedViewModel;
+import com.example.quran_application.PagesWork.Page_Verse_Fragment;
 import com.example.quran_application.Tafseer.Tafsir_Fragment;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
 import com.google.android.material.button.MaterialButton;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setFragment(currentFragment);
         paraBtn.setOnClickListener(v -> setFragment(new Para_Fragment()));
         surahBtn.setOnClickListener(v -> setFragment(new Surah_Fragment()));
-        downloadBtn.setOnClickListener(v -> setFragment(new Download_Fragment()));
+        downloadBtn.setOnClickListener(v -> setFragment(new Page_Verse_Fragment()));
         tafseerBtn.setOnClickListener(v -> {
             setFragment(new Tafsir_Fragment());
         });
