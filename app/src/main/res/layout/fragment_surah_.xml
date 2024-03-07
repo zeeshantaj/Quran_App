@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layoutDescription="@xml/fragment_surah__scene"
     tools:context=".Surah_Fragment">
 
     <androidx.cardview.widget.CardView
@@ -11,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:visibility="visible"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,17 +22,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/last_surah_gradient"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:background="@drawable/last_surah_gradient">
+            android:weightSum="2">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/lastsurah"
@@ -47,8 +49,8 @@
                     android:id="@+id/lastSurahName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" آل عِمران"
                     android:layout_marginTop="8dp"
+                    android:text=" آل عِمران"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -58,10 +60,10 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/linear_curve"
                     android:orientation="horizontal"
                     android:paddingStart="20dp"
-                    android:layout_marginTop="8dp"
                     android:paddingEnd="20dp"
                     app:layout_constraintStart_toStartOf="@+id/lastSurahName"
                     app:layout_constraintTop_toBottomOf="@id/lastSurahName">
@@ -78,10 +80,11 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/quran_cion"/>
+                android:src="@drawable/quran_cion" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -94,4 +97,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastSurahCard" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>
