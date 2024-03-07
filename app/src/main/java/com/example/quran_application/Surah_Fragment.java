@@ -1,5 +1,7 @@
 package com.example.quran_application;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -7,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quran_application.Adaper.ChapterAdapter;
@@ -31,6 +35,7 @@ import com.example.quran_application.Click_Animation.ClickedItemAnimator;
 import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.Translation.MySharedPreference;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
+import com.google.android.material.shadow.ShadowRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +57,8 @@ public class Surah_Fragment extends Fragment {
     public static List<Chapter> chaptersList;
     private Chapter chapterModel;
     public static LinearLayoutManager layoutManager;
+    private TextView surahNameTxt;
+    private CardView cardView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,9 +71,11 @@ public class Surah_Fragment extends Fragment {
        // mySharedPreferences.saveValue("translation_key", 158);
         // Retrieving a value
         int value = mySharedPreferences.getValue("translation_key", 158);
-        Log.d("MainActivity", "Value retrieved: " + value);
+        //Log.d("MainActivity", "Value retrieved: " + value);
 
         recyclerView = view.findViewById(R.id.chapterRecycler);
+        surahNameTxt = view.findViewById(R.id.lastSurahName);
+        cardView = view.findViewById(R.id.lastSurahCard);
 
         chapterModel = new Chapter();
         layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
@@ -104,7 +113,6 @@ public class Surah_Fragment extends Fragment {
                         sharedViewModel.setSurahNameListData(chapter.getName_arabic());
                     }
 
-
                 } else {
                     Toast.makeText(getActivity(), "Response Error "+response.message(), Toast.LENGTH_SHORT).show();
 
@@ -117,9 +125,7 @@ public class Surah_Fragment extends Fragment {
                 Log.e("MyApp","Error ->"+t.getLocalizedMessage());
             }
         });
-
-
-
+        getLastReadSurah();
         return view;
     }
 
@@ -151,7 +157,28 @@ public class Surah_Fragment extends Fragment {
         }
     }
 
-//    public static void performSearch(final int query) {
+    private void getLastReadSurah(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("lastSurahSharedPreference", Context.MODE_PRIVATE);
+        int surahID = sharedPreferences.getInt("lastSurahID",0);
+        String surahName = sharedPreferences.getString("lastSurahName","");
+        boolean isChapter = sharedPreferences.getBoolean("lastSurahIsChapter",false);
+        boolean savedVerse = sharedPreferences.getBoolean("lastSurahSavedVerse",false);
+        if (isChapter){
+            cardView.setVisibility(View.VISIBLE);
+            surahNameTxt.setText(surahName);
+        }
+        else {
+            cardView.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLastReadSurah();
+    }
+    //    public static void performSearch(final int query) {
 //        int positionToScroll = -1;
 //        for (int i = 0; i < chaptersList.size(); i++) {
 //            if (chaptersList.get(i).getId() == query) {
