@@ -1,6 +1,7 @@
 package com.example.quran_application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.example.quran_application.Click_Animation.ClickedItemAnimator;
 import com.example.quran_application.Model.SharedViewModel;
 import com.example.quran_application.Translation.MySharedPreference;
 import com.example.quran_application.Translation.Translation_Select_Fragment;
+import com.example.quran_application.verses_response.VersesActivity;
 import com.google.android.material.shadow.ShadowRenderer;
 
 import java.util.ArrayList;
@@ -166,6 +168,14 @@ public class Surah_Fragment extends Fragment {
         if (isChapter){
             cardView.setVisibility(View.VISIBLE);
             surahNameTxt.setText(surahName);
+            cardView.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), VersesActivity.class);
+                intent.putExtra("chapterNumber",surahID);
+                intent.putExtra("isChapter", isChapter);
+                intent.putExtra("savedVerse", savedVerse);
+                intent.putExtra("chapterName",surahName);
+                startActivity(intent);
+            });
         }
         else {
             cardView.setVisibility(View.GONE);
