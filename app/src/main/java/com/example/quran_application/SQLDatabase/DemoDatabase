@@ -1,0 +1,862 @@
+package com.linkitsoft.L3CraftMenuboard.DBUtils;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.linkitsoft.L3CraftMenuboard.DBModels.Cart.CartLisDBModel;
+import com.linkitsoft.L3CraftMenuboard.DBModels.Category.CategoriesListDbModel;
+import com.linkitsoft.L3CraftMenuboard.DBModels.Deals.DealsListDbModel;
+import com.linkitsoft.L3CraftMenuboard.DBModels.MenuScreenModel;
+import com.linkitsoft.L3CraftMenuboard.DBModels.Recommend.RecommendListDBModel;
+import com.linkitsoft.L3CraftMenuboard.DBModels.SchedulesListDbModel;
+import com.linkitsoft.L3CraftMenuboard.DBModels.VideosIdentifierListDbModel;
+import com.linkitsoft.L3CraftMenuboard.Utils.LocalDataManager;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+public class DbHandler extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "JumbilinDb";
+
+    Gson gson = new Gson();
+
+    private static final String TABLE_CART = "cart";
+
+    private static final String COL_CART_ID = "cart_id";
+    private static final String COL_CART_ITEM_IMAGE = "item_image";
+    private static final String COL_CART_ITEM_NAME = "item_name";
+    private static final String COL_CART_ITEM_PRICE = "item_price";
+    private static final String COL_CART_TOTAL_PRICE = "cart_total_price";
+    private static final String COL_CART_TOTAL_ITEM = "cart_total_item";
+    private static final String COL_CART_SINGLE_ITEM_PRICE = "cart_single_item_price";
+    private static final String COL_CART_ATTRIBUTES = "cart_attributes";
+    private static final String COL_CART_ADD_ONS = "cart_add_ons";
+    private static final String COL_CART_UPDATED_TOTAL_PRICE = "cart_updated_total_price";
+    private static final String COL_CART_PROD_ID = "cart_prod_id";
+    private static final String COL_CART_TAX_AMT = "cart_tax_amt";
+
+    private static final String TABLE_RECOMMENDATIONS = "table_recommendations";
+
+    private static final String RECOMMENDATIONS_COL_ID = "recommendations_id";
+    private static final String RECOMMENDATIONS_COL_RESTAURANT_ID = "recommendations_restaurant_id";
+    private static final String RECOMMENDATIONS_COL_CAT_ID = "recommendations_cat_id";
+    private static final String RECOMMENDATIONS_COL_SUB_CAT_ID = "recommendations_sub_cat_id";
+    private static final String RECOMMENDATIONS_COL_PROD_ID = "recommendations_prod_id";
+    private static final String RECOMMENDATIONS_COL_CREATED_AT = "recommendations_created_at";
+    private static final String RECOMMENDATIONS_COL_UPDATED_AT = "recommendations_updated_at";
+    private static final String RECOMMENDATIONS_COL_IS_ACTIVE = "recommendations_is_active";
+    private static final String RECOMMENDATIONS_COL_IS_DELETED = "recommendations_is_deleted";
+    private static final String RECOMMENDATIONS_COL_NAME = "recommendations_name";
+    private static final String RECOMMENDATIONS_COL_DESCRIPTION = "recommendations_description";
+    private static final String RECOMMENDATIONS_COL_IMAGE = "recommendations_image";
+    private static final String RECOMMENDATIONS_COL_INGREDIENTS = "recommendations_ingredients";
+    private static final String RECOMMENDATIONS_COL_NUTRITION_FACTS = "recommendations_nutrition_facts";
+    private static final String RECOMMENDATIONS_COL_SIZES = "recommendations_sizes";
+    private static final String RECOMMENDATIONS_COL_ATTRIBUTE = "recommendations_attributes";
+    private static final String RECOMMENDATIONS_COL_PRICE = "recommendations_price";
+    private static final String RECOMMENDATIONS_COL_POS_PROD_ID = "recommendations_pos_prod_id";
+    private static final String RECOMMENDATIONS_COL_SELLABLE = "recommendations_sellable";
+    private static final String RECOMMENDATIONS_COL_STOCKABLE = "recommendations_stockable";
+    private static final String RECOMMENDATIONS_COL_TREEZ_PROD_ID = "recommendations_treez_prod_id";
+
+    private static final String TABLE_CATEGORIES = "table_categories";
+
+    private static final String CATEGORIES_COL_ID = "categories_id";
+    private static final String CATEGORIES_COL_RESTAURANT_ID = "categories_restaurant_id";
+    private static final String CATEGORIES_COL_CAT_ID = "categories_cat_id";
+    private static final String CATEGORIES_COL_CREATED_AT = "categories_created_at";
+    private static final String CATEGORIES_COL_UPDATED_AT = "categories_updated_at";
+    private static final String CATEGORIES_COL_IS_ACTIVE = "categories_is_active";
+    private static final String CATEGORIES_COL_IS_DELETED = "categories_is_deleted";
+    private static final String CATEGORIES_COL_NAME = "categories_name";
+    private static final String CATEGORIES_COL_IMAGE = "categories_image";
+    private static final String CATEGORIES_COL_TYPE = "categories_type";
+    private static final String CATEGORIES_MENU_TYPE = "categories_menu";
+    private static final String CATEGORIES_PRICE = "categories_price";
+    private static final String CATEGORIES_DESCRIPTION = "categories_description";
+    private static final String CATEGORIES_COL_SUB_CATEGORY = "categories_sub_category";
+
+    private static final String TABLE_DEALS = "table_deals";
+
+    private static final String DEALS_COL_ID = "deals_id";
+    private static final String DEALS_COL_RESTAURANT_ID = "deals_res_id";
+    private static final String DEALS_COL_CAT_ID = "deals_cat_id";
+    private static final String DEALS_COL_SUB_CAT_ID = "deals_sub_cat_id";
+    private static final String DEALS_COL_REC_PROD_ID = "deals_rec_prod_id";
+    private static final String DEALS_COL_NAME = "deals_name";
+    private static final String DEALS_COL_DESCRIPTION = "deals_description";
+    private static final String DEALS_COL_IMAGE = "deals_image";
+    private static final String DEALS_COL_PRICE = "deals_price";
+    private static final String DEALS_COL_INGREDIENTS = "deals_ingredients";
+    private static final String DEALS_COL_NUTRITION_FACTS = "deals_nutrition_facts";
+    private static final String DEALS_COL_SIZES = "deals_sizes";
+    private static final String DEALS_COL_IS_ATTRIBUTES = "deals_is_attributes";
+    private static final String DEALS_COL_IS_ACTIVE = "deals_is_active";
+    private static final String DEALS_COL_IS_DELETED = "deals_is_deleted";
+    private static final String DEALS_COL_CREATED_AT = "deals_created_at";
+    private static final String DEALS_COL_UPDATED_AT = "deals_updated_at";
+    private static final String DEALS_COL_ADD_ONS = "deals_add_ons";
+    private static final String DEALS_COL_ATTRIBUTES = "deals_attributes";
+
+
+    private static final String TABLE_SCHEDULES = "table_schedules";
+
+    private static final String SCHEDULES_COL_ID = "schedules_id";
+    private static final String SCHEDULES_COL_DAY_OF_WEEK = "schedules_day_of_week";
+    private static final String SCHEDULES_COL_TIME_FROM = "schedules_time_from";
+    private static final String SCHEDULES_COL_TIME_TO = "schedules_time_to";
+    private static final String SCHEDULES_COL_IS_ENABLED = "schedules_is_enabled";
+    private static final String SCHEDULES_COL_CATEGORY_ID = "schedules_category_id";
+    private static final String SCHEDULES_COL_RESTAURANT_ID = "schedules_restaurant_id";
+    private static final String SCHEDULES_COL_SCREEN_ID = "schedules_screen_id";
+    private static final String SCHEDULES_COL_SCREEN_TYPE = "schedules_screen_type";
+    private static final String SCHEDULES_COL_SCREEN_IDENTIFIER = "schedules_screen_identifier";
+
+
+    private static final String TABLE_MENUSCREENS = "table_menuscreen";
+    private static final String MENUSCREEN_COL_ID = "menuscreen_id";
+    private static final String MENUSCREEN_COL_SCREENID = "menuscreen_screenid";
+    private static final String MENUSCREEN_COL_LANE = "menuscreen_lane";
+    private static final String MENUSCREEN_COL_OCS = "menuscreen_ocs";
+    private static final String MENUSCREEN_COL_layoutName = "menuscreen_layoutname";
+    private static final String MENUSCREEN_COL_identifier = "menuscreen_identifier";
+    private static final String MENUSCREEN_COL_menuScreenCategories = "menuscreen_categories";
+    private static final String MENUSCREEN_COL_attributes = "menuscreen_attributes";
+    private static final String MENUSCREEN_COL_MACHINEID= "machine_id";
+
+
+
+    private static final String TABLE_VIDEOS_IDENTIFIER = "table_videos_identifier";
+    private static final String VIDEO_IDENTIFIER_COL_KEY = "videos_identifier_key";
+    private static final String VIDEO_IDENTIFIER_COL_DOWNLOAD = "videos_identifier_download";
+
+
+    public DbHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_CART_TABLE = "CREATE TABLE " + TABLE_CART + "("
+                + COL_CART_ID + " TEXT PRIMARY KEY,"
+                + COL_CART_ITEM_IMAGE + " TEXT,"
+                + COL_CART_ITEM_NAME + " TEXT,"
+                + COL_CART_ITEM_PRICE + " INTEGER,"
+                + COL_CART_TOTAL_PRICE + " INTEGER,"
+                + COL_CART_TOTAL_ITEM + " INTEGER,"
+                + COL_CART_SINGLE_ITEM_PRICE + " INTEGER,"
+                + COL_CART_ATTRIBUTES + " TEXT,"
+                + COL_CART_ADD_ONS + " TEXT,"
+                + COL_CART_UPDATED_TOTAL_PRICE + " TEXT,"
+                + COL_CART_PROD_ID + " INTEGER,"
+                + COL_CART_TAX_AMT + " TEXT"
+                + ")";
+
+        String CREATE_CATEGORIES_TABLE = "CREATE TABLE " + TABLE_CATEGORIES + "("
+                + CATEGORIES_COL_ID + " TEXT,"
+                + CATEGORIES_COL_RESTAURANT_ID + " INTEGER,"
+                + CATEGORIES_COL_CAT_ID + " INTEGER,"
+                + CATEGORIES_COL_CREATED_AT + " INTEGER,"
+                + CATEGORIES_COL_UPDATED_AT + " INTEGER,"
+                + CATEGORIES_COL_IS_ACTIVE + " INTEGER,"
+                + CATEGORIES_COL_IS_DELETED + " INTEGER,"
+                + CATEGORIES_COL_NAME + " TEXT,"
+                + CATEGORIES_COL_IMAGE + " TEXT,"
+                + CATEGORIES_MENU_TYPE + " TEXT,"
+                + CATEGORIES_COL_TYPE + " TEXT,"
+                + CATEGORIES_PRICE + " DOUBLE,"
+                + CATEGORIES_DESCRIPTION + " TEXT,"
+                + CATEGORIES_COL_SUB_CATEGORY + " TEXT"
+                + ")";
+
+        String CREATE_RECOMMENDATIONS_TABLE = "CREATE TABLE " + TABLE_RECOMMENDATIONS + "("
+                + RECOMMENDATIONS_COL_ID + " INTEGER PRIMARY KEY,"
+                + RECOMMENDATIONS_COL_RESTAURANT_ID + " INTEGER,"
+                + RECOMMENDATIONS_COL_CAT_ID + " INTEGER,"
+                + RECOMMENDATIONS_COL_SUB_CAT_ID + " INTEGER,"
+                + RECOMMENDATIONS_COL_PROD_ID + " INTEGER,"
+                + RECOMMENDATIONS_COL_CREATED_AT + " TEXT,"
+                + RECOMMENDATIONS_COL_UPDATED_AT + " TEXT,"
+                + RECOMMENDATIONS_COL_IS_ACTIVE + " INTEGER,"
+                + RECOMMENDATIONS_COL_IS_DELETED + " INTEGER,"
+                + RECOMMENDATIONS_COL_NAME + " TEXT,"
+                + RECOMMENDATIONS_COL_DESCRIPTION + " TEXT,"
+                + RECOMMENDATIONS_COL_IMAGE + " TEXT,"
+                + RECOMMENDATIONS_COL_INGREDIENTS + " TEXT,"
+                + RECOMMENDATIONS_COL_NUTRITION_FACTS + " TEXT,"
+                + RECOMMENDATIONS_COL_SIZES + " TEXT,"
+                + RECOMMENDATIONS_COL_ATTRIBUTE + " INTEGER,"
+                + RECOMMENDATIONS_COL_PRICE + " INTEGER,"
+                + RECOMMENDATIONS_COL_POS_PROD_ID + " INTEGER,"
+                + RECOMMENDATIONS_COL_SELLABLE + " INTEGER,"
+                + RECOMMENDATIONS_COL_STOCKABLE + " INTEGER,"
+                + RECOMMENDATIONS_COL_TREEZ_PROD_ID + " INTEGER"
+                + ")";
+
+        String CREATE_DEALS_TABLE = "CREATE TABLE " + TABLE_DEALS + "("
+                + DEALS_COL_ID + " TEXT PRIMARY KEY,"
+                + DEALS_COL_RESTAURANT_ID + " INTEGER,"
+                + DEALS_COL_CAT_ID + " INTEGER,"
+                + DEALS_COL_SUB_CAT_ID + " INTEGER,"
+                + DEALS_COL_REC_PROD_ID + " INTEGER,"
+                + DEALS_COL_NAME + " TEXT,"
+                + DEALS_COL_DESCRIPTION + " TEXT,"
+                + DEALS_COL_IMAGE + " TEXT,"
+                + DEALS_COL_PRICE + " INTEGER,"
+                + DEALS_COL_INGREDIENTS + " TEXT,"
+                + DEALS_COL_NUTRITION_FACTS + " TEXT,"
+                + DEALS_COL_SIZES + " TEXT,"
+                + DEALS_COL_IS_ATTRIBUTES + " INTEGER,"
+                + DEALS_COL_IS_ACTIVE + " INTEGER,"
+                + DEALS_COL_IS_DELETED + " INTEGER,"
+                + DEALS_COL_CREATED_AT + " TEXT,"
+                + DEALS_COL_UPDATED_AT + " TEXT,"
+                + DEALS_COL_ADD_ONS + " TEXT,"
+                + DEALS_COL_ATTRIBUTES + " TEXT"
+                + ")";
+
+
+        String CREATE_SCHEDULES_TABLE = "CREATE TABLE " + TABLE_SCHEDULES + "("
+                + SCHEDULES_COL_ID + " INTEGER PRIMARY KEY,"
+                + SCHEDULES_COL_DAY_OF_WEEK + " TEXT,"
+                + SCHEDULES_COL_TIME_FROM + " TEXT,"
+                + SCHEDULES_COL_TIME_TO + " TEXT,"
+                + SCHEDULES_COL_IS_ENABLED + " INTEGER,"
+                + SCHEDULES_COL_CATEGORY_ID + " INTEGER,"
+                + SCHEDULES_COL_RESTAURANT_ID + " INTEGER,"
+                + SCHEDULES_COL_SCREEN_ID + " TEXT,"
+                + SCHEDULES_COL_SCREEN_TYPE + " TEXT,"
+                + SCHEDULES_COL_SCREEN_IDENTIFIER + " INTEGER"
+                + ")";
+
+        String CREATE_MENUSCREENS_TABLE = "CREATE TABLE " + TABLE_MENUSCREENS + "("
+                + MENUSCREEN_COL_ID + " INTEGER PRIMARY KEY,"
+                + MENUSCREEN_COL_SCREENID + " TEXT,"
+                + MENUSCREEN_COL_LANE + " INTEGER,"
+                + MENUSCREEN_COL_OCS + " INTEGER,"
+                + MENUSCREEN_COL_layoutName + " TEXT,"
+                + MENUSCREEN_COL_identifier + " INTEGER,"
+                + MENUSCREEN_COL_MACHINEID + " INTEGER,"
+                + MENUSCREEN_COL_menuScreenCategories + " TEXT,"
+                + MENUSCREEN_COL_attributes + " TEXT"
+                + ")";
+
+
+        String CREATE_VIDEOS_TABLE = "CREATE TABLE " + TABLE_VIDEOS_IDENTIFIER + "("
+                + VIDEO_IDENTIFIER_COL_KEY + " TEXT PRIMARY KEY,"
+                + VIDEO_IDENTIFIER_COL_DOWNLOAD + " INTEGER"
+                + ")";
+
+
+
+        db.execSQL(CREATE_MENUSCREENS_TABLE);
+        db.execSQL(CREATE_CART_TABLE);
+        db.execSQL(CREATE_CATEGORIES_TABLE);
+        db.execSQL(CREATE_RECOMMENDATIONS_TABLE);
+        db.execSQL(CREATE_DEALS_TABLE);
+        db.execSQL(CREATE_SCHEDULES_TABLE);
+        db.execSQL(CREATE_VIDEOS_TABLE);
+    }
+
+    public void addCartItems(CartLisDBModel cartLisDBModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COL_CART_ID, cartLisDBModel.getId());
+        values.put(COL_CART_ITEM_IMAGE, cartLisDBModel.getItemImage());
+        values.put(COL_CART_ITEM_NAME, cartLisDBModel.getItemName());
+        values.put(COL_CART_ITEM_PRICE, cartLisDBModel.getItemPrice());
+        values.put(COL_CART_TOTAL_PRICE, cartLisDBModel.getTotalPrice());
+        values.put(COL_CART_SINGLE_ITEM_PRICE, cartLisDBModel.getSingleItemPrice());
+        values.put(COL_CART_TOTAL_ITEM, cartLisDBModel.getTotalItem());
+        values.put(COL_CART_PROD_ID, cartLisDBModel.getProdId());
+
+        String attributesJson = gson.toJson(cartLisDBModel.getProductAttributes());
+        values.put(COL_CART_ATTRIBUTES, attributesJson);
+
+        String addOnJson = gson.toJson(cartLisDBModel.getAddOnModels());
+        values.put(COL_CART_ADD_ONS, addOnJson);
+
+        values.put(COL_CART_UPDATED_TOTAL_PRICE, cartLisDBModel.getUpdatedTotalPrice());
+        values.put(COL_CART_TAX_AMT, cartLisDBModel.getTaxAmount());
+
+        db.insert(TABLE_CART, null, values);
+        db.close();
+    }
+
+    public void addVideosIdentifier(String identifier, int downloaded) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(VIDEO_IDENTIFIER_COL_KEY, identifier);
+        values.put(VIDEO_IDENTIFIER_COL_DOWNLOAD, downloaded);
+        db.insert(TABLE_VIDEOS_IDENTIFIER, null, values);
+        db.close();
+    }
+
+    public int updateVideosIdentifier(VideosIdentifierListDbModel videosIdentifierListDbModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(VIDEO_IDENTIFIER_COL_KEY, videosIdentifierListDbModel.getKey());
+        values.put(VIDEO_IDENTIFIER_COL_DOWNLOAD, videosIdentifierListDbModel.getIsDownloaded());
+        return db.update(TABLE_VIDEOS_IDENTIFIER, values, VIDEO_IDENTIFIER_COL_KEY + " = ?",
+                new String[]{videosIdentifierListDbModel.getKey()});
+    }
+
+    public List<VideosIdentifierListDbModel> getVideosIdentifier() {
+        List<VideosIdentifierListDbModel> videosIdentifierListDbModels = new ArrayList<VideosIdentifierListDbModel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_VIDEOS_IDENTIFIER;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                VideosIdentifierListDbModel vd = new VideosIdentifierListDbModel();
+                vd.setKeys(cursor.getString(0));
+                vd.setIsDownloaded(Integer.parseInt(cursor.getString(1)));
+                videosIdentifierListDbModels.add(vd);
+            } while (cursor.moveToNext());
+        }
+        return videosIdentifierListDbModels;
+    }
+
+    public List<CartLisDBModel> getCartItems() {
+        List<CartLisDBModel> cartLisDBModels = new ArrayList<CartLisDBModel>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_CART;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                CartLisDBModel cart = new CartLisDBModel();
+                cart.setId(cursor.getString(0));
+                cart.setItemImage(cursor.getString(1));
+                cart.setItemName(cursor.getString(2));
+                cart.setItemPrice(Double.parseDouble(cursor.getString(3)));
+                cart.setTotalPrice(Double.parseDouble(cursor.getString(4)));
+                cart.setTotalItem(Integer.parseInt(cursor.getString(5)));
+                cart.setSingleItemPrice(Double.parseDouble(cursor.getString(6)));
+                cart.setStringAttributes(cursor.getString(7));
+                cart.setStringAddOns(cursor.getString(8));
+                cart.setUpdatedTotalPrice(Double.parseDouble(cursor.getString(9)));
+                cart.setProdId(Integer.parseInt(cursor.getString(10)));
+                cart.setTaxAmount(Double.parseDouble(cursor.getString(11)));
+                cartLisDBModels.add(cart);
+            } while (cursor.moveToNext());
+        }
+        return cartLisDBModels;
+    }
+
+    public void addMenuScreen(MenuScreenModel menuScreenModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(MENUSCREEN_COL_ID, menuScreenModel.getId());
+        values.put(MENUSCREEN_COL_SCREENID, menuScreenModel.getScreenId());
+        values.put(MENUSCREEN_COL_LANE, menuScreenModel.getLane());
+        values.put(MENUSCREEN_COL_OCS, menuScreenModel.getOCS());
+        values.put(MENUSCREEN_COL_layoutName, menuScreenModel.getLayoutName());
+        values.put(MENUSCREEN_COL_identifier, menuScreenModel.getIdentifier());
+        values.put(MENUSCREEN_COL_MACHINEID, menuScreenModel.getMachineId());
+
+        Gson gson = new Gson();
+        String menuScreenGson = gson.toJson(menuScreenModel.getMenuScreenCategories());
+        String attributesGson = gson.toJson(menuScreenModel.getAttributes());
+        values.put(MENUSCREEN_COL_menuScreenCategories, menuScreenGson);
+        values.put(MENUSCREEN_COL_attributes, attributesGson);
+
+        db.insert(TABLE_MENUSCREENS, null, values);
+        db.close();
+    }
+
+    public List<MenuScreenModel> getMenuScreens() {
+        List<MenuScreenModel> categoriesListDbModels = new ArrayList<MenuScreenModel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_MENUSCREENS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                MenuScreenModel cat = new MenuScreenModel();
+                cat.setId(Integer.parseInt(cursor.getString(0)));
+                cat.setScreenId(cursor.getString(1));
+                cat.setLane(Integer.parseInt(cursor.getString(2)));
+                cat.setOCS(Integer.parseInt(cursor.getString(3)));
+                cat.setLayoutName(cursor.getString(4));
+                cat.setIdentifier(Integer.parseInt(cursor.getString(5)));
+                cat.setMenuScreenData(cursor.getString(7));
+                cat.setAttributeData(cursor.getString(8));
+                cat.setMachineId(Integer.parseInt(cursor.getString(6)));
+                categoriesListDbModels.add(cat);
+            } while (cursor.moveToNext());
+        }
+        return categoriesListDbModels;
+    }
+
+    public void addCategories(CategoriesListDbModel categoriesListDbModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        String id = String.valueOf(categoriesListDbModel.getId());
+        values.put(CATEGORIES_COL_ID, id);
+        values.put(CATEGORIES_COL_RESTAURANT_ID, categoriesListDbModel.getRestaurantID());
+        values.put(CATEGORIES_COL_CAT_ID, categoriesListDbModel.getCategoryID());
+        values.put(CATEGORIES_COL_CREATED_AT, "");
+        values.put(CATEGORIES_COL_UPDATED_AT,"");
+        values.put(CATEGORIES_COL_IS_ACTIVE, "0");
+        values.put(CATEGORIES_COL_IS_DELETED, "0");
+        values.put(CATEGORIES_COL_NAME, categoriesListDbModel.getTitle());
+        values.put(CATEGORIES_COL_IMAGE, categoriesListDbModel.getImage());
+        values.put(CATEGORIES_PRICE, categoriesListDbModel.getPrice());
+        values.put(CATEGORIES_COL_TYPE, String.valueOf(categoriesListDbModel.getType()));
+        values.put(CATEGORIES_MENU_TYPE, categoriesListDbModel.getCategoryName());
+        values.put(CATEGORIES_DESCRIPTION, categoriesListDbModel.getDescription());
+        Gson gson = new Gson();
+        String subCatGson = gson.toJson(categoriesListDbModel.getSubCategoriesListDbModels());
+        values.put(CATEGORIES_COL_SUB_CATEGORY, subCatGson);
+
+        db.insert(TABLE_CATEGORIES, null, values);
+        db.close();
+    }
+
+    public void addDeals(DealsListDbModel dealsListDbModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DEALS_COL_ID, dealsListDbModel.getId());
+        values.put(DEALS_COL_RESTAURANT_ID, dealsListDbModel.getRestaurantID());
+        values.put(DEALS_COL_CAT_ID, dealsListDbModel.getCategoryID());
+        values.put(DEALS_COL_SUB_CAT_ID, dealsListDbModel.getSubCategoryID());
+        values.put(DEALS_COL_REC_PROD_ID, dealsListDbModel.getRecommendedProductIDs());
+        values.put(DEALS_COL_NAME, dealsListDbModel.getName());
+        values.put(DEALS_COL_DESCRIPTION, dealsListDbModel.getDescription());
+        values.put(DEALS_COL_IMAGE, dealsListDbModel.getImage());
+        values.put(DEALS_COL_PRICE, dealsListDbModel.getPrice());
+        values.put(DEALS_COL_INGREDIENTS, dealsListDbModel.getIngredients());
+        values.put(DEALS_COL_NUTRITION_FACTS, dealsListDbModel.getNutritionFacts());
+        values.put(DEALS_COL_SIZES, dealsListDbModel.getSizes());
+        values.put(DEALS_COL_IS_ATTRIBUTES, dealsListDbModel.getAttritube());
+        values.put(DEALS_COL_IS_ACTIVE, dealsListDbModel.getIsActive());
+        values.put(DEALS_COL_IS_DELETED, dealsListDbModel.getIsDeleted());
+        values.put(DEALS_COL_CREATED_AT, dealsListDbModel.getCreatedAt());
+        values.put(DEALS_COL_UPDATED_AT, dealsListDbModel.getUpdatedAt());
+
+        Gson gsonAttr = new Gson();
+        String attributes = gsonAttr.toJson(dealsListDbModel.getAttributesListDbModels());
+        values.put(DEALS_COL_ATTRIBUTES, attributes);
+
+        Gson gsonAddOns = new Gson();
+        String addOns = gsonAddOns.toJson(dealsListDbModel.getAddOnsListDbModels());
+        values.put(DEALS_COL_ADD_ONS, addOns);
+
+        db.insert(TABLE_DEALS, null, values);
+        db.close();
+
+    }
+
+    public void addSchedules(SchedulesListDbModel schedulesListDbModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(SCHEDULES_COL_ID, schedulesListDbModel.getId());
+        values.put(SCHEDULES_COL_DAY_OF_WEEK, schedulesListDbModel.getDayOfWeek().toLowerCase());
+        values.put(SCHEDULES_COL_TIME_FROM, schedulesListDbModel.getTimeFrom());
+        values.put(SCHEDULES_COL_TIME_TO, schedulesListDbModel.getTimeTo());
+        values.put(SCHEDULES_COL_IS_ENABLED, schedulesListDbModel.getIsEnabled());
+        values.put(SCHEDULES_COL_CATEGORY_ID, schedulesListDbModel.getCategoryId());
+        values.put(SCHEDULES_COL_RESTAURANT_ID, schedulesListDbModel.getRestaurantId());
+        values.put(SCHEDULES_COL_SCREEN_ID, schedulesListDbModel.getMenuScreenId());
+        values.put(SCHEDULES_COL_SCREEN_TYPE, schedulesListDbModel.getMenuScreenName());
+        values.put(SCHEDULES_COL_SCREEN_IDENTIFIER, schedulesListDbModel.getIdentifier());
+
+        db.insert(TABLE_SCHEDULES, null, values);
+        db.close();
+    }
+
+
+    public List<SchedulesListDbModel> getSchedules() {
+        List<SchedulesListDbModel> schedulesListDbModels = new ArrayList<SchedulesListDbModel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_SCHEDULES;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                SchedulesListDbModel sch = new SchedulesListDbModel();
+                sch.setId(Integer.parseInt(cursor.getString(0)));
+                sch.setDayOfWeek(cursor.getString(1));
+                sch.setTimeFrom(cursor.getString(2));
+                sch.setTimeTo(cursor.getString(3));
+                sch.setIsEnabled(Integer.parseInt(cursor.getString(4)));
+                sch.setCategoryId(Integer.parseInt(cursor.getString(5)));
+                sch.setRestaurantId(Integer.parseInt(cursor.getString(6)));
+                sch.setMenuScreenId(cursor.getString(7));
+                sch.setMenuScreenName(cursor.getString(8));
+                sch.setIdentifier(Integer.parseInt(cursor.getString(9)));
+                schedulesListDbModels.add(sch);
+            } while (cursor.moveToNext());
+        }
+        return schedulesListDbModels;
+    }
+
+    public void addRecommendations(RecommendListDBModel recommendListDBModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(RECOMMENDATIONS_COL_ID, recommendListDBModel.getId());
+        values.put(RECOMMENDATIONS_COL_RESTAURANT_ID, recommendListDBModel.getRestaurantID());
+        values.put(RECOMMENDATIONS_COL_CAT_ID, recommendListDBModel.getCategoryID());
+        values.put(RECOMMENDATIONS_COL_SUB_CAT_ID, recommendListDBModel.getSubCategoryID());
+        values.put(RECOMMENDATIONS_COL_PROD_ID, recommendListDBModel.getRecommendedProductIDs());
+        values.put(RECOMMENDATIONS_COL_CREATED_AT, recommendListDBModel.getCreatedAt());
+        values.put(RECOMMENDATIONS_COL_UPDATED_AT, recommendListDBModel.getUpdatedAt());
+        values.put(RECOMMENDATIONS_COL_IS_ACTIVE, recommendListDBModel.getIsActive());
+        values.put(RECOMMENDATIONS_COL_IS_DELETED, recommendListDBModel.getIsDeleted());
+        values.put(RECOMMENDATIONS_COL_NAME, recommendListDBModel.getName());
+        values.put(RECOMMENDATIONS_COL_DESCRIPTION, recommendListDBModel.getDescription());
+        values.put(RECOMMENDATIONS_COL_IMAGE, recommendListDBModel.getImage());
+        values.put(RECOMMENDATIONS_COL_INGREDIENTS, recommendListDBModel.getIngredients());
+        values.put(RECOMMENDATIONS_COL_NUTRITION_FACTS, recommendListDBModel.getNutritionFacts());
+        values.put(RECOMMENDATIONS_COL_SIZES, recommendListDBModel.getSizes());
+        values.put(RECOMMENDATIONS_COL_ATTRIBUTE, recommendListDBModel.getAttribute());
+        values.put(RECOMMENDATIONS_COL_PRICE, recommendListDBModel.getPrice());
+        values.put(RECOMMENDATIONS_COL_POS_PROD_ID, recommendListDBModel.getPOSProductId());
+        values.put(RECOMMENDATIONS_COL_SELLABLE, recommendListDBModel.getSellable());
+        values.put(RECOMMENDATIONS_COL_STOCKABLE, recommendListDBModel.getStockable());
+        values.put(RECOMMENDATIONS_COL_TREEZ_PROD_ID, recommendListDBModel.getTreezProductId());
+
+        db.insert(TABLE_RECOMMENDATIONS, null, values);
+        db.close();
+    }
+
+
+    public List<CategoriesListDbModel> getCategories() {
+        List<CategoriesListDbModel> categoriesListDbModels = new ArrayList<CategoriesListDbModel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_CATEGORIES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                CategoriesListDbModel cat = new CategoriesListDbModel();
+                cat.setId(Integer.parseInt(cursor.getString(0)));
+                cat.setRestaurantID(Integer.parseInt(cursor.getString(1)));
+                cat.setCategoryID(Integer.parseInt(cursor.getString(2)));
+                cat.setCreatedAt(cursor.getString(3));
+                cat.setUpdatedAt(cursor.getString(4));
+                cat.setIsActive(Integer.parseInt(cursor.getString(5)));
+                cat.setIsDeleted(Integer.parseInt(cursor.getString(6)));
+                cat.setTitle(cursor.getString(7));
+                cat.setImage(cursor.getString(8));
+                cat.setCategoryName(cursor.getString(9));
+                cat.setType(Integer.parseInt(cursor.getString(10)));
+                cat.setProduct(cursor.getString(13));
+                cat.setDescription(cursor.getString(12));
+
+                categoriesListDbModels.add(cat);
+            } while (cursor.moveToNext());
+        }
+
+        return categoriesListDbModels;
+    }
+
+
+    @SuppressLint("Range")
+    public List<String> getScheduleCategory(String currentDay, String currentTime) {
+        int catId = 0;
+        String ScreenType = "";
+        String ScreenId = "";
+        List<String> types = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.d("Database", "Database is open: " + db.isOpen());
+        String[] projection = {"schedules_id", "schedules_day_of_week", "schedules_time_from", "schedules_time_to", "schedules_is_enabled", "schedules_category_id", "schedules_restaurant_id", "schedules_screen_id", "schedules_screen_type", "schedules_screen_identifier"};
+        String selection = "schedules_day_of_week = ?";
+        String[] selectionArgs = {currentDay};
+        Log.d("QueryParams", "currentDay: " + currentDay + ", currentTime: " + currentTime);
+        Cursor cursor = db.query("TABLE_SCHEDULES", projection, selection, selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String timeFrom = cursor.getString(cursor.getColumnIndex("schedules_time_from"));
+                    String timeTo = cursor.getString(cursor.getColumnIndex("schedules_time_to"));
+                    int identifier = cursor.getInt(cursor.getColumnIndex("schedules_screen_identifier"));
+                    Log.d("existingIdentifier", String.valueOf(identifier) + " Local Identifier " + LocalDataManager.getInstance().getInt("identifier"));
+                    if (isTimeWithinRange(currentTime, timeFrom, timeTo) && LocalDataManager.getInstance().getInt("identifier") == identifier && identifier != 0) {
+                        ScreenType = cursor.getString(cursor.getColumnIndex("schedules_screen_type"));
+                        ScreenId = cursor.getString(cursor.getColumnIndex("schedules_screen_id"));
+                        types.add(ScreenType);
+                        types.add(ScreenId);
+                        break; // No need to continue looping if a match is found
+                    }
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        db.close();
+        return types;
+    }
+    private boolean isTimeWithinRange(String currentTime, String startTime, String endTime) {
+        try {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            Date currentTimeDate = timeFormat.parse(currentTime);
+            Date startTimeDate = timeFormat.parse(startTime);
+            Date endTimeDate = timeFormat.parse(endTime);
+
+            // Check if currentTime is between startTime and endTime
+            return currentTimeDate.after(startTimeDate) && currentTimeDate.before(endTimeDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public List<DealsListDbModel> getDeals() {
+        List<DealsListDbModel> dealsListDbModels = new ArrayList<DealsListDbModel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_DEALS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                DealsListDbModel deals = new DealsListDbModel();
+                deals.setId(Integer.parseInt(cursor.getString(0)));
+                deals.setRestaurantID(Integer.parseInt(cursor.getString(1)));
+                deals.setCategoryID(Integer.parseInt(cursor.getString(2)));
+                deals.setSubCategoryID(Integer.parseInt(cursor.getString(3)));
+                deals.setRecommendedProductIDs(Integer.parseInt(cursor.getString(4)));
+                deals.setName(cursor.getString(5));
+                deals.setDescription(cursor.getString(6));
+                deals.setImage(cursor.getString(7));
+                deals.setPrice(Double.parseDouble(cursor.getString(8)));
+                deals.setIngredients(cursor.getString(9));
+                deals.setNutritionFacts(cursor.getString(10));
+                deals.setSizes(cursor.getString(11));
+                deals.setAttritube(Integer.parseInt(cursor.getString(12)));
+                deals.setIsActive(Integer.parseInt(cursor.getString(13)));
+                deals.setIsDeleted(Integer.parseInt(cursor.getString(14)));
+                deals.setCreatedAt(cursor.getString(15));
+                deals.setUpdatedAt(cursor.getString(16));
+                deals.setAddOnsStrings(cursor.getString(17));
+                deals.setAttributesString(cursor.getString(18));
+                dealsListDbModels.add(deals);
+            } while (cursor.moveToNext());
+        }
+
+        return dealsListDbModels;
+    }
+
+    public DealsListDbModel getDeal(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_DEALS, new String[]{
+                        DEALS_COL_ID, DEALS_COL_RESTAURANT_ID, DEALS_COL_CAT_ID, DEALS_COL_SUB_CAT_ID, DEALS_COL_REC_PROD_ID, DEALS_COL_NAME, DEALS_COL_DESCRIPTION, DEALS_COL_IMAGE,
+                        DEALS_COL_PRICE, DEALS_COL_INGREDIENTS, DEALS_COL_NUTRITION_FACTS, DEALS_COL_SIZES, DEALS_COL_IS_ATTRIBUTES, DEALS_COL_IS_ACTIVE, DEALS_COL_IS_DELETED,
+                        DEALS_COL_CREATED_AT, DEALS_COL_UPDATED_AT, DEALS_COL_ADD_ONS, DEALS_COL_ATTRIBUTES}, DEALS_COL_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        DealsListDbModel deal = new DealsListDbModel(
+                Integer.parseInt(cursor.getString(0)),
+                Integer.parseInt(cursor.getString(1)),
+                Integer.parseInt(cursor.getString(2)),
+                Integer.parseInt(cursor.getString(3)),
+                Integer.parseInt(cursor.getString(4)),
+                cursor.getString(5),
+                cursor.getString(6),
+                cursor.getString(7),
+                Double.parseDouble(cursor.getString(8)),
+                cursor.getString(9),
+                cursor.getString(10),
+                cursor.getString(11),
+                Integer.parseInt(cursor.getString(12)),
+                Integer.parseInt(cursor.getString(13)),
+                Integer.parseInt(cursor.getString(14)),
+                cursor.getString(15),
+                cursor.getString(16),
+                cursor.getString(17),
+                cursor.getString(18)
+        );
+        return deal;
+
+    }
+
+    public ArrayList<CategoriesListDbModel>  getCategory(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        CategoriesListDbModel cat = null;
+        ArrayList<CategoriesListDbModel>  categoriesListDbModels = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_CATEGORIES, new String[]{
+                        CATEGORIES_COL_ID, CATEGORIES_COL_RESTAURANT_ID, CATEGORIES_COL_CAT_ID, CATEGORIES_COL_CREATED_AT, CATEGORIES_COL_UPDATED_AT, CATEGORIES_COL_IS_ACTIVE,
+                        CATEGORIES_COL_IS_DELETED, CATEGORIES_COL_NAME, CATEGORIES_COL_IMAGE,
+                        CATEGORIES_COL_TYPE,CATEGORIES_MENU_TYPE, CATEGORIES_COL_SUB_CATEGORY , CATEGORIES_PRICE}, CATEGORIES_COL_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+        do {
+            cat = new CategoriesListDbModel();
+            cat.setId(Integer.parseInt(cursor.getString(0)));
+            cat.setRestaurantID(Integer.parseInt(cursor.getString(1)));
+            cat.setCategoryID(Integer.parseInt(cursor.getString(2)));
+            cat.setCreatedAt(cursor.getString(3));
+            cat.setUpdatedAt(cursor.getString(4));
+            cat.setIsActive(Integer.parseInt(cursor.getString(5)));
+            cat.setIsDeleted(Integer.parseInt(cursor.getString(6)));
+            cat.setTitle(cursor.getString(7));
+            cat.setImage(cursor.getString(8));
+            cat.setCategoryName(cursor.getString(10));
+            cat.setProduct(cursor.getString(11));
+            cat.setPrice(Double.parseDouble(cursor.getString(12)));
+            categoriesListDbModels.add(cat);
+
+        } while (cursor.moveToNext());
+        return categoriesListDbModels;
+
+    }
+
+    public List<RecommendListDBModel> getRecommendProducts() {
+        List<RecommendListDBModel> recommendListDBModelList = new ArrayList<RecommendListDBModel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_RECOMMENDATIONS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                RecommendListDBModel rec = new RecommendListDBModel();
+                rec.setId(Integer.parseInt(cursor.getString(0)));
+                rec.setRestaurantID(Integer.parseInt(cursor.getString(1)));
+                rec.setCategoryID(Integer.parseInt(cursor.getString(2)));
+                rec.setSubCategoryID(Integer.parseInt(cursor.getString(3)));
+                rec.setRecommendedProductIDs(Integer.parseInt(cursor.getString(4)));
+                rec.setCreatedAt(cursor.getString(5));
+                rec.setUpdatedAt(cursor.getString(6));
+                rec.setIsActive(Integer.parseInt(cursor.getString(7)));
+                rec.setIsDeleted(Integer.parseInt(cursor.getString(8)));
+                rec.setName(cursor.getString(9));
+                rec.setDescription(cursor.getString(10));
+                rec.setImage(cursor.getString(11));
+                rec.setIngredients(cursor.getString(12));
+                rec.setNutritionFacts(cursor.getString(13));
+                rec.setSizes(cursor.getString(14));
+                rec.setAttribute(Integer.parseInt(cursor.getString(15)));
+                rec.setPrice(Double.parseDouble(cursor.getString(16)));
+                rec.setPOSProductId(Integer.parseInt(cursor.getString(17)));
+                rec.setSellable(Integer.parseInt(cursor.getString(18)));
+                rec.setStockable(Integer.parseInt(cursor.getString(19)));
+                rec.setTreezProductId(Integer.parseInt(cursor.getString(20)));
+                recommendListDBModelList.add(rec);
+            } while (cursor.moveToNext());
+        }
+        return recommendListDBModelList;
+    }
+
+    public int updateCartItem(CartLisDBModel cartLisDBModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COL_CART_ID, cartLisDBModel.getId());
+        values.put(COL_CART_ITEM_IMAGE, cartLisDBModel.getItemImage());
+        values.put(COL_CART_ITEM_NAME, cartLisDBModel.getItemName());
+        values.put(COL_CART_ITEM_PRICE, cartLisDBModel.getItemPrice());
+        values.put(COL_CART_TOTAL_PRICE, cartLisDBModel.getTotalPrice());
+        values.put(COL_CART_TOTAL_ITEM, cartLisDBModel.getTotalItem());
+        values.put(COL_CART_SINGLE_ITEM_PRICE, cartLisDBModel.getSingleItemPrice());
+        values.put(COL_CART_PROD_ID, cartLisDBModel.getProdId());
+
+        String attributesJson = gson.toJson(cartLisDBModel.getProductAttributes());
+        values.put(COL_CART_ATTRIBUTES, attributesJson);
+
+        String addOnJson = gson.toJson(cartLisDBModel.getAddOnModels());
+        values.put(COL_CART_ADD_ONS, addOnJson);
+        values.put(COL_CART_UPDATED_TOTAL_PRICE, cartLisDBModel.getUpdatedTotalPrice());
+
+        // updating row
+        return db.update(TABLE_CART, values, COL_CART_ID + " = ?",
+                new String[]{String.valueOf(cartLisDBModel.getId())});
+    }
+
+    // Deleting single item
+    public void deleteitem(CartLisDBModel cartListModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_CART, COL_CART_ID + " = ?",
+                new String[]{String.valueOf(cartListModel.getId())});
+        db.close();
+    }
+
+    public void deleteCart() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Delete all records of table
+        db.execSQL("DELETE FROM " + TABLE_CART);
+
+        //For go back free space by shrinking sqlite file
+        db.execSQL("VACUUM");
+        db.close();
+    }
+
+    public void deleteDeals() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Delete all records of table
+        db.execSQL("DELETE FROM " + TABLE_DEALS);
+
+        //For go back free space by shrinking sqlite file
+        db.execSQL("VACUUM");
+        db.close();
+    }
+
+    public void deleteRecommendations() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Delete all records of table
+        db.execSQL("DELETE FROM " + TABLE_RECOMMENDATIONS);
+
+        //For go back free space by shrinking sqlite file
+        db.execSQL("VACUUM");
+        db.close();
+    }
+
+    public void deleteCategories() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Delete all records of table
+        db.execSQL("DELETE FROM " + TABLE_CATEGORIES);
+
+        //For go back free space by shrinking sqlite file
+        db.execSQL("VACUUM");
+        db.close();
+    }
+
+    public void deleteMenuscreen() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Delete all records of table
+        db.execSQL("DELETE FROM " + TABLE_MENUSCREENS);
+
+        //For go back free space by shrinking sqlite file
+        db.execSQL("VACUUM");
+        db.close();
+    }
+
+    public void deleteSchedules() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Delete all records of table
+        db.execSQL("DELETE FROM " + TABLE_SCHEDULES);
+
+        //For go back free space by shrinking sqlite file
+        db.execSQL("VACUUM");
+        db.close();
+    }
+
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
+}

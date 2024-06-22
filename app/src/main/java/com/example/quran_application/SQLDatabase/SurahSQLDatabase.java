@@ -18,6 +18,7 @@ public class SurahSQLDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        db.create
     }
 
     @Override
