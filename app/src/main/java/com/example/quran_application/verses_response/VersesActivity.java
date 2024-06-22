@@ -102,7 +102,11 @@ public class VersesActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Verses_Response> call, Response<Verses_Response> response) {
                     if (response.isSuccessful()) {
+                        String url = String.valueOf(call.request().url());
+                        Log.d("MyApp","url -> "+url);
+
                         Verses_Response versesResponse = response.body();
+
                         verseList = versesResponse.getVerses();
                         versesAdapter = new Verses_Adapter(verseList); // Update the data in the adapter
                         recyclerView.setAdapter(versesAdapter);
@@ -172,6 +176,8 @@ public class VersesActivity extends AppCompatActivity {
                         Translation_Response translationResponse = response.body();
                         translationList = translationResponse.getTranslation();
 
+
+
                     }
                     else {
                         Toast.makeText(VersesActivity.this, "Error"+response.message(), Toast.LENGTH_SHORT).show();
@@ -225,6 +231,7 @@ public class VersesActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.search_menu,menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
+        MenuItem downloadItem = menu.findItem(R.id.downloadVerse);
 
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setQueryHint("type verse number here");
@@ -241,6 +248,17 @@ public class VersesActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+
+        downloadItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+
+
+
+                return true;
+            }
+        });
 
 
         return true;

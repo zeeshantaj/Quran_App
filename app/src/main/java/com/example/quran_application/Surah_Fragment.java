@@ -102,6 +102,8 @@ public class Surah_Fragment extends Fragment {
             @Override
             public void onResponse(Call<ChapterResponse> call, Response<ChapterResponse> response) {
                 if (response.isSuccessful()) {
+                    String url = String.valueOf(call.request().url());
+                    Log.d("MyApp","url -> "+url);
                     ChapterResponse chaptersResponse = response.body();
                     chaptersList = chaptersResponse.getChapters();
                     chapterAdapter= new ChapterAdapter(chaptersList);
